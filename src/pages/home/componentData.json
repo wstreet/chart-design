@@ -1,0 +1,115 @@
+[
+  {
+    "id":"asdasd",
+    "componentName": "按钮",
+    "component": "Button",
+    "props": {
+      "content": "导出",
+      "type": "primary",
+      "size": "medium",
+      "loading": false,
+      "events": {
+        "onClick": "function onClick() { console.log('onclick) }"
+      },
+      "icon": "",
+      "style": {
+        
+      }
+    },
+    "attrGroups": [
+      {
+        "groupTitle": "基本属性",
+        "attrs": [
+          {
+            "key": "size",
+            "name": "宽度",
+            "viewType": "select",
+            "defaultValue": "medium",
+            "dataSource": [
+              {"label": "medium", "value": "medium"},
+              {"label": "small", "value": "small"}
+            ]
+          },
+          {
+            "key": "type",
+            "name": "按钮类型",
+            "viewType": "select",
+            "defaultValue": "primary",
+            "dataSource": [
+              {"label": "primary", "value": "primary"},
+              {"label": "primary", "value": "primary"}
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "样式设置",
+        "attrs": [
+          {
+            "key": "width",
+            "name": "宽度",
+            "viewType": "input",
+            "defaultValue": 100
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id":"sss",
+    "componentName": "选择器",
+    "component": "Select",
+    "props": {
+      "size": "medium",
+      "events": {
+        "onChang": "function onClick() { console.log('onclick) }"
+      },
+      "dataSource": [
+        {"label": 1, "value": 1},
+        {"label": 2, "value": 2},
+        {"label": 3, "value": 3}
+      ],
+      "style": {
+        
+      }
+    },
+    "attrGroups": [
+      {
+        "groupTitle": "基本属性",
+        "attrs": [
+          {
+            "key": "size",
+            "name": "宽度",
+            "viewType": "select",
+            "defaultValue": "medium",
+            "dataSource": [
+              {"label": "medium", "value": "medium"},
+              {"label": "small", "value": "small"}
+            ]
+          },
+          {
+            "key": "type",
+            "name": "按钮类型",
+            "viewType": "select",
+            "defaultValue": "primary",
+            "dataSource": [
+              {"label": "primary", "value": "primary"},
+              {"label": "primary", "value": "primary"}
+            ]
+          }
+        ]
+      },
+      {
+        "groupTitle": "样式设置",
+        "attrs": [
+          {
+            "key": "width",
+            "name": "宽度",
+            "viewType": "input",
+            "defaultValue": 100
+          }
+        ]
+      }
+    ]
+  }
+]

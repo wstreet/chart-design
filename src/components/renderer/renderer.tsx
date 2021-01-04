@@ -1,12 +1,14 @@
 import React from 'react'
-import  { Button } from 'antd'
+import  { Button, Select } from 'antd'
 import './index.less'
 
 export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
   
   options: Renderer.Options = {
     componentMap: {
-      Button
+      // 这里的组件应该再封装一下，支持拖动
+      Button,
+      Select
     }
   }
   
@@ -14,9 +16,38 @@ export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
     let Component = this.options.componentMap[name]
     if (!Component) {
       console.log('组件不存在')
-      // return <div />
+      return () => null
     }
     return Component
+  }
+
+  renderComponent = (
+    componentList: Renderer.ComponentList
+  ):React.ReactNode => {
+    return componentList.map(config => {
+      const { component, props, id } = config
+      const Component = this.getComponent(component)
+
+      const { children, content } = props
+      let value = content || ''
+      if (children) {
+        value = this.renderComponent(children) 
+      }
+      // if (children) {
+      //   return <Component
+      //     key={id}
+      //     { ...props }
+      //   >
+      //     {this.renderComponent(children)}
+      //   </Component>
+      // }
+
+      return <Component
+        key={id}
+        { ...props }
+        children={value}
+      />
+    })
   }
 
 
@@ -25,14 +56,7 @@ export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
     return (
       <div className="renderer-container">
         {
-          componentList.map(config => {
-            const { componentName, props, style = {} } = config
-            const Component = this.getComponent(componentName)
-            return <Component
-              { ...props }
-              style={style}
-            />
-          })
+          this.renderComponent(componentList)
         }
       </div>
     )
@@ -40,31 +64,47 @@ export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
 }
 
 export namespace Renderer {
+  // antd组件的props
   export interface ComponentProps {
-    key?: string,
-    className?: string
+    children?: ComponentList
+    [propKey: string]: any
   }
 
   export type Component = (props: ComponentProps) => React.ReactNode
 
   interface componentMap {
-    [componentName: string]: Component
+    [componentKey: string]: Component
   }
 
   export interface Options {
     componentMap: componentMap
   }
 
-  export interface ComponentConfig<T> {
-    componentName: string,
-    props: T,
-    style?: { 
-      [name: string]: string 
-    }
+  export interface Attr {
+    key: string,
+    name: string,
+    viewType: string,
+    defaultValue: string | number
+    dataSource?: any
+  }
+  
+  export interface AttrGroup {
+    groupTitle: string,
+    attrs: Array<Attr>
   }
 
+  export interface ComponentConfig<P, A> {
+    id: string,
+    component: string,
+    componentName: string,
+    props: P,
+    attrGroups: A[]
+  }
+
+  export type ComponentList = Array<ComponentConfig<ComponentProps, AttrGroup>>
+
   export interface Props {
-    componentList: Array<ComponentConfig<ComponentProps>>
+    componentList: ComponentList
   }
 
   export interface State {

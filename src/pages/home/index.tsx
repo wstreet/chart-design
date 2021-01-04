@@ -3,20 +3,15 @@ import { Button, Layout  } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import Toolbar from 'components/toolbar'
 import Renderer from 'components/renderer'
+import LeftSider from 'components/leftSider'
+import componentList from './componentData.json'
+import './index.less'
 
 
 const Item = Toolbar.Item
 const { Header, Content, Footer, Sider } = Layout;
 
-const componentList = [
-  {
-    componentName: 'Button',
-    props: {
-      children: 'haha',
-      key: 'hah-btn'
-    }
-  }
-]
+
 
 const App = () => {
   const onClick = (value: any) => {
@@ -33,8 +28,8 @@ const App = () => {
         </Toolbar>
       </Header>
       <Layout>
-        <Sider>left sidebar</Sider>
-        <Content>
+        <LeftSider />
+        <Content className="renderer-content">
           <Renderer componentList={componentList}  />
         </Content>
         <Sider>right sidebar</Sider>
