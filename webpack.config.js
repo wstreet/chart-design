@@ -17,10 +17,12 @@ module.exports = function (env) {
     context: __dirname,
     devtool: 'inline-source-map',
     // 入口文件
-    entry: './src/index.tsx',
+    entry: {
+      index: './src/index.tsx'
+    },
     // 输出文件名称
     output: {
-      filename: '[name].js',
+      filename: '[name].[hash].js',
       path: resolve('./dist'),
     },
     resolve: {
@@ -50,8 +52,13 @@ module.exports = function (env) {
         {
           test: /\.(css|less)?$/,
           use: [
-            // MiniCssExtractPlugin.loader,
-            'style-loader',
+            
+            {
+              loader: MiniCssExtractPlugin.loader,
+              options: {
+                publicPath: resolve('./dist'),
+              },
+            },
             'css-loader',
             'less-loader'
           ],
@@ -61,14 +68,13 @@ module.exports = function (env) {
     plugins: [
       new HtmlWebpackPlugin({
         template: resolve('./public/index.html'),
-        title: 'RTS脚手架' // React + Typescript
+        title: 'Web Design'
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
-      // new webpack.ProgressPlugin(),
-      // new MiniCssExtractPlugin({
-      //   filename: './dist/[name].css',
-      //   chunkFilename: './dist/[name].chunk.css',
-      // })
+      new MiniCssExtractPlugin({
+        filename: '[name][hash].css',
+        chunkFilename: '[name][hash].chunk.css',
+      })
     ],
   }
 
@@ -91,6 +97,26 @@ module.exports = function (env) {
     baseConfig.optimization = {
       minimize: true,
       minimizer: [new TerserPlugin()],
+      splitChunks: {
+        chunks: 'async',
+        minSize: 30000,
+        minChunks: 1,
+        maxAsyncRequests: 5,
+        maxInitialRequests: 3,
+        automaticNameDelimiter: '~',
+        name: true,
+        cacheGroups: {
+          vendors: {
+            test: /[\\/]node_modules[\\/]/,
+            priority: -10
+          },
+          default: {
+            minChunks: 2,
+            priority: -20,
+            reuseExistingChunk: true
+          }
+        }
+      }
     }
   }
 

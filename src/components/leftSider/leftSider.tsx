@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
-import { Popover } from 'antd'
+import { Popover, Row, Col } from 'antd'
+import { registerComponentList } from 'components/componentList'
 import './index.less'
 
 export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State> {
@@ -47,8 +48,16 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
     return (
       <div style={{
         height: 700,
-
-      }}>hahaha</div>
+      }}>
+        <Row wrap={true} justify="space-between">
+          {
+            registerComponentList.map(component => (
+              <Col span={24} className="component-item">{component.label}</Col>
+            ))
+          }
+        </Row>
+       
+      </div>
     )
   }
 

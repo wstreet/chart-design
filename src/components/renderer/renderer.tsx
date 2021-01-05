@@ -1,14 +1,27 @@
 import React from 'react'
 import  { Button, Select } from 'antd'
+import componentList from './componentData.json'
+import { registerComponentList } from 'components/componentList'
 import './index.less'
 
+console.log(registerComponentList)
+
 export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
+
+  state = {
+    componentList
+  }
   
   options: Renderer.Options = {
     componentMap: {
       // 这里的组件应该再封装一下，支持拖动
       Button,
       Select
+      // ...registerComponentList.reduce((acc, cur) => {
+      //   // const name = cur?.component?.getComponentName()
+      //   acc[name] = cur
+      //   return acc
+      // }, {} as any)
     }
   }
   
@@ -52,7 +65,7 @@ export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
 
 
   render() {
-    const { componentList } = this.props
+    const { componentList } = this.state
     return (
       <div className="renderer-container">
         {
@@ -72,7 +85,7 @@ export namespace Renderer {
 
   export type Component = (props: ComponentProps) => React.ReactNode
 
-  interface componentMap {
+  export interface componentMap {
     [componentKey: string]: Component
   }
 
@@ -104,10 +117,11 @@ export namespace Renderer {
   export type ComponentList = Array<ComponentConfig<ComponentProps, AttrGroup>>
 
   export interface Props {
-    componentList: ComponentList
+    // componentList: ComponentList
   }
 
   export interface State {
+    componentList: ComponentList
 
   }
 }
