@@ -1,67 +1,76 @@
 .left-menu-container {
-  position: absolute;
-  left: 0;
-  top: 60px;
-  width: 60px;
-  height: 100%;
-  border: none;
-  background: #396efe;
-  z-index: 100;
-}
+  width: 250px;
+  .ant-tabs-left {
+    .ant-tabs-nav {
+      background: #396efe;
+      color: #ffffff;
+      width: 56px;
+      .ant-tabs-tab {
+        margin: 0;
+        padding: 8px 0;
+        justify-content: center;
+        .left-menu-name {
+          font-size: 12px;
+        }
+        
+        &:hover {
+          background: #2a5eee;
+          color: #ffffff;
+          font-weight: 600;
+          
+        }
 
-.menu-item {
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  padding: 10px 0;
-  height: 60px;
-  color: #ffffff;
-  cursor: pointer;
-  /* width: 60px; */
-}
+        .left-menu-icon {
+          text-align: center;
+          .anticon {
+            margin-right: 0;
+          }
+        }
+      }
 
-.menu-item:hover{
-  background: rgba(31,83,226,0.6);
-}
+      .ant-tabs-tab-active, .ant-tabs-tab-active:hover {
+        background: #ffffff;
+        color: #327DFF;
+        .left-menu-name {
+          font-weight: 600;
+          font-size: 12px;
+        }
+        
+      }
+      
+    }
 
-.menu-item-active,.menu-item-active:hover {
-  background: #ffffff;
-  color: #396efe;
-}
+    .ant-tabs-content-holder {
+      background: #ffffff;
+      .ant-tabs-tabpane {
+        padding-left: 0;
+      }
+    }
 
-
-
-.menu-icon, .menu-name {
-  text-align: center;
-}
-
-.menu-name {
-  padding-top: 4px;
-  font-size: 12px;
-  font-weight: 600;
-}
-
-.ant-popover-placement-right  {
-  left: 60px!important;
-  top: 60px!important;
-  padding-left: 0;
-  .ant-popover-inner {
-    border-radius: 0;
-    box-shadow: 0 9px 28px 8px rgba(0, 0, 0, 0.05);
     
+    .ant-tabs-ink-bar-animated {
+      width: 0;
+    }
   }
-  .ant-popover-inner-content {
+}
+
+.tab-content-box {
+  height: calc(100vh - 60px);
+  // overflow: hidden;
+  .ant-card-head {
+    height: 40px;
+  }
+  .ant-card-body {
+    height: calc(100vh - 60px);
     overflow-y: scroll;
-    height: calc(100vh - 92px);
-    min-height: calc(100vh - 92px);
   }
+  
+}
 
-  .ant-popover-arrow {
-    display: none
-  }
 
-  .component-item {
-    border: 1px solid #ccc;
-    margin: 10px 0;
-  }
+
+.component-item {
+  height: 70px;
+  border: 1px solid #f0f0f0;
+  margin-bottom: 24px;
 }

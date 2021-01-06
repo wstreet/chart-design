@@ -19,6 +19,10 @@ export const registerComponent = (label: string, component:ComponentType ) => {
 }
 
 registerComponent('按钮', WDButton)
+registerComponent('按钮2', WDButton)
+registerComponent('按钮3', WDButton)
+registerComponent('按钮4', WDButton)
+registerComponent('按钮5', WDButton)
 // registerComponent('选择器', WDSelect)
 
 

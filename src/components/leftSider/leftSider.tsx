@@ -1,8 +1,10 @@
 import React, { ReactNode } from 'react';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
-import { Popover, Row, Col } from 'antd'
+import { Tabs, Row, Col, Card } from 'antd'
 import { registerComponentList } from 'components/componentList'
 import './index.less'
+
+const { TabPane } = Tabs
 
 export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State> {
   constructor(props: LeftSider.Props) {
@@ -15,27 +17,20 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
           key: 'component'
         },
         {
-          icon: <SettingOutlined />,
+          icon: <AppstoreOutlined />,
           name: '区块',
           key: 'block'
-        },
-        {
-          icon: <AppstoreOutlined />,
-          name: '样板间',
-          key: 'models'
-        },
+        }
       ],
-      activeMenuKey: 'component'
+      tabKey: 'component'
     }
   }
 
 
-  onSelect = (key: string) => {
-    return () => {
-      this.setState({
-        activeMenuKey: key
-      })
-    }
+  onChange = (key: string) => {
+    this.setState({
+      tabKey: key
+    })
   }
 
   onClick = () => {
@@ -44,50 +39,54 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
     })
   }
 
-  getPopoverContent = () => {
-    return (
-      <div style={{
-        height: 700,
-      }}>
-        <Row wrap={true} justify="space-between">
-          {
-            registerComponentList.map(component => (
-              <Col span={24} className="component-item">{component.label}</Col>
-            ))
-          }
-        </Row>
-       
-      </div>
-    )
+  getTabContent = (menu: LeftSider.Menu) => {
+    const { tabKey } = this.state
+    if (tabKey === menu.key) {
+      return (
+        <div className="tab-content-box">
+          <Card title={menu.name} bordered={false}>
+            <Row wrap={true} justify="space-between">
+              {
+                registerComponentList.map(component => (
+                  <Col span={24} className="component-item">{component.label}</Col>
+                ))
+              }
+            </Row>
+          </Card>
+        </div>
+      )
+    } else {
+      return <div className="tab-content-box" >区块</div>
+    }
+    
   }
 
 
   render() {
-    const {activeMenuKey, menus} = this.state
+    const { tabKey, menus } = this.state
     return (
-      <ul className="left-menu-container" onClick={this.onClick} >
-        {
-          menus.map(menu => {
-            return (
-              <Popover
-                key={menu.key} 
-                placement="right" 
-                title={menu.name} 
-                content={this.getPopoverContent} 
-                trigger="click"
-              >
-                <li
-                  className={`menu-item${menu.key === activeMenuKey? ' menu-item-active':''}`}
-                  onClick={this.onSelect(menu.key)}
+      <div className="left-menu-container">
+        <Tabs tabPosition="left" activeKey={tabKey} onChange={this.onChange}>
+          {
+            menus.map(menu => {
+              return (
+                <TabPane 
+                  tab={(
+                    <div> 
+                      <div className="left-menu-icon">{ menu.icon }</div> 
+                      <div className="left-menu-name">{ menu.name }</div>
+                    </div>
+                    )
+                  } 
+                  key={menu.key}
                 >
-                  <div className="menu-icon">{menu.icon}</div>
-                  <div className="menu-name">{menu.name}</div>
-                </li>
-              </Popover>
-            )
-          })
-        }
-      </ul>
+                  { this.getTabContent(menu) }
+                </TabPane>
+              )
+            })
+          }
+        </Tabs>
+      </div>
     )
   }
 }
@@ -107,6 +106,6 @@ export namespace LeftSider {
 
   export interface State {
     menus: Menu[],
-    activeMenuKey: string
+    tabKey: string
   }
 }
