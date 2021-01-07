@@ -1,16 +1,24 @@
 import React from 'react'
 import  { Button, Select } from 'antd'
+// 这里mock的是拖拽到画布中的组件，需要保存到state中
 import componentList from './componentData.json'
-import { registerComponentList } from 'components/componentList'
+import { registerComponents } from 'components/componentList'
 import './index.less'
 
-console.log(registerComponentList)
+console.log(registerComponents)
 
 export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
 
   state = {
     componentList
   }
+
+  constructor(props: Renderer.Props) {
+    super(props)
+    this.options
+  }
+
+  
   
   options: Renderer.Options = {
     componentMap: {
@@ -28,7 +36,7 @@ export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
   getComponent = (name: string): any => {
     let Component = this.options.componentMap[name]
     if (!Component) {
-      console.log('组件不存在')
+      console.warn(`${name}组件不存在`)
       return () => null
     }
     return Component

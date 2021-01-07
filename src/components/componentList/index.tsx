@@ -3,36 +3,34 @@
 // 1、可以对外提供可配置的属性
 // 2、可以拖拽到画布或者在画布中拖动布局
 
-import { ComponentType, ReactNode } from 'react'
+import { ComponentClass, ReactNode } from 'react'
 import WDButton from './Button'
 import WDSelect from './Select'
 
 
 
-export const registerComponentList: ComponentList = []
+export const registerComponents: ComponentMap = {}
 
-export const registerComponent = (label: string, component:ComponentType ) => {
-  registerComponentList.push({
-    label,
-    component
-  })
+export const registerComponent = (Component: ComponentWithConfig ) => {
+  const config = Component.getComponentConfig()
+  const { componentName } = config
+  registerComponents[componentName] = config
 }
 
-registerComponent('按钮', WDButton)
-registerComponent('按钮2', WDButton)
-registerComponent('按钮3', WDButton)
-registerComponent('按钮4', WDButton)
-registerComponent('按钮5', WDButton)
-// registerComponent('选择器', WDSelect)
+registerComponent(WDButton)
+registerComponent(WDSelect)
 
+interface ComponentWithConfig extends ComponentClass {
+  getComponentConfig: () => ComponentConfig;
+}
 
-export interface Component {}
-
-
-export interface ComponentItem {
+export interface ComponentConfig {
   label: string,
-  component: ComponentType
+  componentName: string,
+  imgSrc: string
 }
 
-export type ComponentList = ComponentItem[]
+export interface ComponentMap {
+  [key: string]: ComponentConfig
+}
 

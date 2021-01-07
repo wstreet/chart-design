@@ -2,7 +2,7 @@
   {
     "id":"asdasd",
     "componentName": "按钮",
-    "component": "Button",
+    "component": "WDButton",
     "props": {
       "content": "导出",
       "type": "primary",
@@ -58,7 +58,7 @@
   {
     "id":"sss",
     "componentName": "选择器",
-    "component": "Select",
+    "component": "WDSelect",
     "props": {
       "size": "medium",
       "events": {

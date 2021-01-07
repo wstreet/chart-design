@@ -1,7 +1,7 @@
 import React, { ReactNode } from 'react';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
 import { Tabs, Row, Col, Card } from 'antd'
-import { registerComponentList } from 'components/componentList'
+import { registerComponents } from 'components/componentList'
 import './index.less'
 
 const { TabPane } = Tabs
@@ -47,9 +47,12 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
           <Card title={menu.name} bordered={false}>
             <Row wrap={true} justify="space-between">
               {
-                registerComponentList.map(component => (
-                  <Col span={24} className="component-item">{component.label}</Col>
-                ))
+                Object.keys(registerComponents).map(name =>  {
+                  const { label } = registerComponents[name]
+                  return (
+                    <Col key={name} span={24} className="component-item">{label}</Col>
+                  )
+                })
               }
             </Row>
           </Card>

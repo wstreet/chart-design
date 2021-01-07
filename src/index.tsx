@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from 'pages/home'
+import App from 'pages/edit'
 import './index.less'
 
 const render = () => ReactDOM.render(

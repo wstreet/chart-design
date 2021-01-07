@@ -5,6 +5,7 @@
       background: #396efe;
       color: #ffffff;
       width: 56px;
+      border-right: 1px solid #f0f0f0;
       .ant-tabs-tab {
         margin: 0;
         padding: 8px 0;
@@ -56,12 +57,16 @@
 
 .tab-content-box {
   height: calc(100vh - 60px);
-  // overflow: hidden;
+  overflow: hidden;
   .ant-card-head {
     height: 40px;
+    min-height: 40px;
+    .ant-card-head-title {
+      padding: 8px 0;
+    }
   }
   .ant-card-body {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 100px);
     overflow-y: scroll;
   }
   
