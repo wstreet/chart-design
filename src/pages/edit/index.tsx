@@ -43,7 +43,7 @@ const App = () => {
   return (
     <Layout>
       <Header>
-        <div className="logo">Web Design</div>
+        <div className="logo">WEB Design</div>
         <Toolbar prefixCls="a" onClick={onClick}>
           <Item name="aa">
             <Button size="small" type="primary"><EditOutlined /></Button> 
