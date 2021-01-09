@@ -22,7 +22,7 @@ module.exports = function (env) {
     },
     // 输出文件名称
     output: {
-      filename: '[name].[hash].js',
+      filename: '[name].[contenthash].js',
       path: resolve('./dist'),
     },
     resolve: {
@@ -72,8 +72,8 @@ module.exports = function (env) {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new MiniCssExtractPlugin({
-        filename: '[name][hash].css',
-        chunkFilename: '[name][hash].chunk.css',
+        filename: '[name][contenthash].css',
+        chunkFilename: '[name][chunkHash].chunk.css',
       })
     ],
   }

@@ -4,8 +4,8 @@
 // 2、可以拖拽到画布或者在画布中拖动布局
 
 import { ComponentClass, ReactNode } from 'react'
-import WDButton from './Button'
-import WDSelect from './Select'
+import WDButton from './WDButton'
+import WDSelect from './WDSelect'
 
 
 
@@ -18,6 +18,7 @@ export const registerComponent = (Component: ComponentWithConfig ) => {
 }
 
 registerComponent(WDButton)
+registerComponent(WDSelect)
 registerComponent(WDSelect)
 
 interface ComponentWithConfig extends ComponentClass {

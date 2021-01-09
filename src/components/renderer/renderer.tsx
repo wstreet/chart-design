@@ -1,83 +1,41 @@
 import React from 'react'
-import  { Button, Select } from 'antd'
-// 这里mock的是拖拽到画布中的组件，需要保存到state中
-import componentList from './componentData.json'
-import { registerComponents } from 'components/componentList'
+import LoaderComponent from 'components/dynamic'
+import pick from 'lodash/pick'
 import './index.less'
 
-console.log(registerComponents)
+const styleKeys = [
+  'top', 
+  'bottom', 
+  'right',
+  'left',
+  'width',
+  'height',
+]
 
 export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
 
-  state = {
-    componentList
-  }
-
-  constructor(props: Renderer.Props) {
-    super(props)
-    this.options
-  }
-
-  
-  
-  options: Renderer.Options = {
-    componentMap: {
-      // 这里的组件应该再封装一下，支持拖动
-      Button,
-      Select
-      // ...registerComponentList.reduce((acc, cur) => {
-      //   // const name = cur?.component?.getComponentName()
-      //   acc[name] = cur
-      //   return acc
-      // }, {} as any)
-    }
-  }
-  
-  getComponent = (name: string): any => {
-    let Component = this.options.componentMap[name]
-    if (!Component) {
-      console.warn(`${name}组件不存在`)
-      return () => null
-    }
-    return Component
-  }
-
   renderComponent = (
-    componentList: Renderer.ComponentList
-  ):React.ReactNode => {
-    return componentList.map(config => {
-      const { component, props, id } = config
-      const Component = this.getComponent(component)
-
-      const { children, content } = props
-      let value = content || ''
-      if (children) {
-        value = this.renderComponent(children) 
-      }
-      // if (children) {
-      //   return <Component
-      //     key={id}
-      //     { ...props }
-      //   >
-      //     {this.renderComponent(children)}
-      //   </Component>
-      // }
-
+    points: Array<Renderer.Point>
+  ): React.ReactNode => {
+    return points.map(point => {
+      const { componentName, config, id } = point
+      const Component = LoaderComponent(componentName)
+      const style = pick(config, styleKeys)
       return <Component
         key={id}
-        { ...props }
-        children={value}
+        { ...config }
+        style={style}
       />
     })
   }
 
 
   render() {
-    const { componentList } = this.state
+    const { points } = this.props
     return (
       <div className="renderer-container">
         {
-          this.renderComponent(componentList)
+          this.renderComponent(points)
         }
       </div>
     )
@@ -85,51 +43,30 @@ export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
 }
 
 export namespace Renderer {
-  // antd组件的props
-  export interface ComponentProps {
-    children?: ComponentList
-    [propKey: string]: any
+
+  export interface Config {
+    [key: string]: string |number
   }
 
-  export type Component = (props: ComponentProps) => React.ReactNode
-
-  export interface componentMap {
-    [componentKey: string]: Component
+  export interface EditableAttr {
+    attrKey: string,
+    name: string
+    viewType: string
   }
 
-  export interface Options {
-    componentMap: componentMap
-  }
-
-  export interface Attr {
-    key: string,
-    name: string,
-    viewType: string,
-    defaultValue: string | number
-    dataSource?: any
-  }
-  
-  export interface AttrGroup {
-    groupTitle: string,
-    attrs: Array<Attr>
-  }
-
-  export interface ComponentConfig<P, A> {
+  export interface Point {
     id: string,
-    component: string,
     componentName: string,
-    props: P,
-    attrGroups: A[]
+    config: Config,
+    editableAttrs: Array<EditableAttr>
   }
-
-  export type ComponentList = Array<ComponentConfig<ComponentProps, AttrGroup>>
 
   export interface Props {
-    // componentList: ComponentList
+    points: Array<Point>
+    setPoints: (poines: Array<Point>) => void
   }
 
   export interface State {
-    componentList: ComponentList
-
+    
   }
 }

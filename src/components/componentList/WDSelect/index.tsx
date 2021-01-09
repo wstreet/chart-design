@@ -14,8 +14,8 @@ export default class WDSelect extends React.Component<WDSelect.Props, WDSelect.S
   static getComponentConfig() {
     return {
       componentName: 'WDSelect',
-      label: '算则器',
-      imgSrc: 'https://gw.alipayobjects.com/zos/alicdn/fNUKzY1sk/Button.svg'
+      label: '选择器',
+      imgSrc: 'https://gw.alipayobjects.com/zos/alicdn/_0XzgOis7/Select.svg'
     }
   }
 

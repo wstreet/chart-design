@@ -48,9 +48,14 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
             <Row wrap={true} justify="space-between">
               {
                 Object.keys(registerComponents).map(name =>  {
-                  const { label } = registerComponents[name]
+                  const { label, imgSrc } = registerComponents[name]
                   return (
-                    <Col key={name} span={24} className="component-item">{label}</Col>
+                    <Col key={name} span={24} >
+                      <div className="component-item" draggable>
+                        <img className="component-item-img" src={imgSrc} alt={label} />
+                        <div className="component-item-name">{label}</div>
+                      </div>
+                    </Col>
                   )
                 })
               }
