@@ -1,4 +1,6 @@
 import React,  { useEffect, useState } from 'react'
+import { DndProvider } from 'react-dnd'
+import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, Layout  } from 'antd'
 import { EditOutlined } from '@ant-design/icons'
 import Toolbar from 'components/toolbar'
@@ -41,7 +43,8 @@ const App = () => {
     console.log(value)
   }
   return (
-    <Layout>
+    <DndProvider backend={HTML5Backend}>
+      <Layout>
       <Header>
         <div className="logo">WEB Design</div>
         <Toolbar prefixCls="a" onClick={onClick}>
@@ -62,6 +65,8 @@ const App = () => {
         </Sider>
       </Layout>
     </Layout>
+    </DndProvider>
+    
 
   )
 }

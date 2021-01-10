@@ -2,6 +2,8 @@ import React, { ReactNode } from 'react';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
 import { Tabs, Row, Col, Card } from 'antd'
 import { registerComponents } from 'components/componentList'
+import SourceBox from 'components/sourceBox'
+import ItemTypes from 'components/itemTypes'
 import './index.less'
 
 const { TabPane } = Tabs
@@ -51,10 +53,15 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
                   const { label, imgSrc } = registerComponents[name]
                   return (
                     <Col key={name} span={24} >
-                      <div className="component-item" draggable>
-                        <img className="component-item-img" src={imgSrc} alt={label} />
-                        <div className="component-item-name">{label}</div>
-                      </div>
+                      <SourceBox
+                        type={ItemTypes.BOX}
+                        componentName={name}
+                      >
+                        <div className="component-item">
+                          <img className="component-item-img" src={imgSrc} alt={label} />
+                          <div className="component-item-name">{label}</div>
+                        </div>
+                      </SourceBox>
                     </Col>
                   )
                 })
