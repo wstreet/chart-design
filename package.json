@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "./node_modules/.bin/webpack-dev-server --env development --color",
+    "start": "webpack-dev-server --env development --color",
     "build": "webpack --env production --color",
     "test": "echo \"Error: no test specified\" && exit 1"
   },

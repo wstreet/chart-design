@@ -4,6 +4,7 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const TerserPlugin = require('terser-webpack-plugin');
+const WebpackBar = require('webpackbar');
 const webpack = require('webpack')
 
 const resolve = (dir) => path.resolve(__dirname, dir)
@@ -66,6 +67,7 @@ module.exports = function (env) {
       ]
     },
     plugins: [
+      new WebpackBar(),
       new HtmlWebpackPlugin({
         template: resolve('./public/index.html'),
         title: 'Web Design'
@@ -97,26 +99,27 @@ module.exports = function (env) {
     baseConfig.optimization = {
       minimize: true,
       minimizer: [new TerserPlugin()],
-      splitChunks: {
-        chunks: 'async',
-        minSize: 30000,
-        minChunks: 1,
-        maxAsyncRequests: 5,
-        maxInitialRequests: 3,
-        automaticNameDelimiter: '~',
-        name: true,
-        cacheGroups: {
-          vendors: {
-            test: /[\\/]node_modules[\\/]/,
-            priority: -10
-          },
-          default: {
-            minChunks: 2,
-            priority: -20,
-            reuseExistingChunk: true
-          }
-        }
-      }
+      // 报错先注释掉
+      // splitChunks: {
+      //   chunks: 'async',
+      //   minSize: 30000,
+      //   maxSize: 0,
+      //   minChunks: 1,
+      //   maxAsyncRequests: 30,
+      //   maxInitialRequests: 30,
+      //   enforceSizeThreshold: 50000,
+      //   cacheGroups: {
+      //     vendors: {
+      //       test: /[\\/]node_modules[\\/]/,
+      //       priority: -10
+      //     },
+      //     default: {
+      //       minChunks: 2,
+      //       priority: -20,
+      //       reuseExistingChunk: true
+      //     }
+      //   }
+      // }
     }
   }
 
