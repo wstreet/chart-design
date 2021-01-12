@@ -1,30 +1,31 @@
 import React from 'react'
 import { ToolbarContext  } from './context'
 import { ToolbarItem } from './item'
+import './style/index.less'
 
 export class Toolbar extends React.Component<Toolbar.Props, Toolbar.State> {
   render() {
     const { prefixCls, children, onClick } = this.props
 
-  const baseCls = `${prefixCls}-toolbar`
-  const onClickLocal = (key: string, value?: any) => {
-    if (onClick) {
-      onClick(key, value)
+    const baseCls = `${prefixCls}toolbar`
+    const onClickLocal = (key: string, value?: any) => {
+      if (onClick) {
+        onClick(key, value)
+      }
     }
-  }
-  
-  return (
-    <div>
-      <ToolbarContext.Provider
-        value={{
-          prefixCls: baseCls,
-          onClick: onClickLocal
-        }}
-      >
+
+    return (
+      <div className={baseCls}>
+        <ToolbarContext.Provider
+          value={{
+            prefixCls: baseCls,
+            onClick: onClickLocal
+          }}
+        >
           {
             children
           }
-      </ToolbarContext.Provider>
+        </ToolbarContext.Provider>
      </div>
     )
   }
@@ -44,7 +45,7 @@ export namespace Toolbar {
   }
 
   export const defaultProps: Props = {
-    prefixCls: 'rts',
+    prefixCls: 'wd-',
     children: '',
     onClick: () => {}
   }
