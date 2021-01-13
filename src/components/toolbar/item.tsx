@@ -6,7 +6,6 @@ import { Tooltip } from 'antd'
 
 const ToolbarItemInner: React.FC<ToolbarItemInner.Props> = props => {
   const { id, text, children, context, prefixCls, tooltip, hotKey, onClick } = props
-  console.log(id)
   const handleClick = () => {
     if(onClick) {
       onClick(id)
@@ -18,6 +17,8 @@ const ToolbarItemInner: React.FC<ToolbarItemInner.Props> = props => {
   }
 
   const cls = `${prefixCls}-item`
+
+
 
   return (
     <div onClick={handleClick} className={cls}>
