@@ -24,6 +24,24 @@ time, mark, audio, video {
 body {
 	overflow: hidden;
 }
+
+/*修改滚动条样式*/
+div::-webkit-scrollbar{
+  width:10px;
+  height:10px;
+  /**/
+}
+div::-webkit-scrollbar-track{
+  background: rgb(239, 239, 239);
+  border-radius:2px;
+}
+div::-webkit-scrollbar-thumb{
+  background: #bfbfbf;
+  border-radius:10px;
+}
+
+
+
 //----------------------------------------------
 
 .ant-layout-header {

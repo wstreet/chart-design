@@ -15,7 +15,9 @@ export default class WDSelect extends React.Component<WDSelect.Props, WDSelect.S
     return {
       componentName: 'WDSelect',
       label: '选择器',
-      imgSrc: 'https://gw.alipayobjects.com/zos/alicdn/_0XzgOis7/Select.svg'
+      imgSrc: 'https://gw.alipayobjects.com/zos/alicdn/_0XzgOis7/Select.svg',
+      defaultProps: {},
+      editableAttrs: []
     }
   }
 

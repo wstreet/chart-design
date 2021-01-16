@@ -3,9 +3,11 @@
 // 1、可以对外提供可配置的属性
 // 2、可以拖拽到画布或者在画布中拖动布局
 
-import { ComponentClass, ReactNode } from 'react'
+import { ComponentClass } from 'react'
 import WDButton from './WDButton'
 import WDSelect from './WDSelect'
+
+import './index.less'
 
 
 
@@ -19,16 +21,33 @@ export const registerComponent = (Component: ComponentWithConfig ) => {
 
 registerComponent(WDButton)
 registerComponent(WDSelect)
-registerComponent(WDSelect)
 
 interface ComponentWithConfig extends ComponentClass {
   getComponentConfig: () => ComponentConfig;
 }
 
+interface DefaultProps {
+  [key: string]: any
+}
+
+interface DataSourceItem {
+  label: string,
+  value: string
+}
+
+export interface EditableAttr {
+  attrKey: string,
+  name: string
+  viewType: string,
+  dataSource?: DataSourceItem[]
+}
+
 export interface ComponentConfig {
   label: string,
   componentName: string,
-  imgSrc: string
+  imgSrc: string,
+  defaultProps: DefaultProps
+  editableAttrs: EditableAttr[]
 }
 
 export interface ComponentMap {

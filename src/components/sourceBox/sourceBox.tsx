@@ -4,9 +4,10 @@ import { useDrag } from 'react-dnd'
 const style = {}
 
 export const SourceBox: FC<SourceBox.Props> = (props) => {
-  const { componentName, type, children } = props
+  const { componentName, type, children, id } = props
   const [{ opacity }, drag] = useDrag({
-    item: { 
+    item: {
+      id,
       type,
       componentName
     },
@@ -30,5 +31,6 @@ export namespace SourceBox {
   export interface Props {
     componentName: string,
     type: symbol
+    id?: string
   }
 }

@@ -7,7 +7,8 @@ module.exports = {
       // Uses the recommended rules from @typescript-eslint/eslint-plugin
       'plugin:@typescript-eslint/recommended',
       'plugin:prettier/recommended',
-      'prettier/@typescript-eslint'
+      'prettier/@typescript-eslint',
+      'react-hooks'
   ],
   parserOptions: {
       // Allows for the parsing of modern ECMAScript features
@@ -37,7 +38,9 @@ module.exports = {
       '@typescript-eslint/interface-name-prefix': 'off',
       '@typescript-eslint/no-empty-interface': 'off',
       'react/prop-types': 'off',
-      'react/display-name': 'off'
+      'react/display-name': 'off',
+      'react-hooks/rules-of-hooks': 'error', // Checks rules of Hooks
+      'react-hooks/exhaustive-deps': 'warn' // Checks effect dependencies
   },
   settings: {
       react: {

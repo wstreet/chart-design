@@ -1,31 +1,24 @@
-import React from 'react'
+import React, { FC } from 'react'
 import LoaderComponent from 'components/dynamic'
 import pick from 'lodash/pick'
 import TargetBox from 'components/targetBox'
 import SourceBox from 'components/sourceBox'
 import ItemTypes from 'components/itemTypes'
+import { EditableAttr } from 'components/componentList'
 import { getId } from 'utils/index'
+import {findIndex, find} from  'lodash'
 import './index.less'
 
 const getDefaultPoint = (componentName: string) => {
-  return {
+  const Component = LoaderComponent(componentName)
+  return { 
     id: getId(),
     componentName,
-    config: { // 放组件的属性和值，可以在form中修改
-      // 组件属性
-      type: 'primary',
-      children: '哈哈',
-      //style
-      width: 80,
-      border: '2px solid #ccc'
+    props: {
+      ...Component.defaultProps,
+      // 根据鼠标坐标更新组件位置
     },
-    editableAttrs: [
-      {
-        attrKey: "width",
-        name: "宽度",
-        viewType: "InputNumber"
-      }
-    ]
+    editableAttrs: [...Component.editableAttrs]
   }
 }
 
@@ -38,84 +31,88 @@ const styleKeys = [
   'height',
 ]
 
-export class Renderer extends React.Component<Renderer.Props, Renderer.State> {
+export const Renderer: FC<Renderer.Props> = (props) => {
+  const { points } = props
 
-  renderComponent = (
+  const onComponentClick = (id: string) => {
+    const { getActivePointId } = props
+    getActivePointId(id)
+  }
+
+  const onDrop = (item: any) => {
+    const { componentName, id } = item
+    const { setPoints, points } = props
+    const movePointIndex =  findIndex(points, (p: Renderer.Point) => p.id === id)
+    const movePoint =  find(points, (p: Renderer.Point) => p.id === id)
+    if (movePoint) {
+      // move: update movePoint position
+      // ...
+      points.splice(movePointIndex, 1, movePoint) 
+    } else {
+      // add: 
+      points.push(
+        getDefaultPoint(componentName)
+      )
+    }
+    setPoints([ ...points])
+  }
+
+  const renderComponent = (
     points: Array<Renderer.Point>
   ): React.ReactNode => {
+    const { activePointId } = props
     return points.map(point => {
-      const { componentName, config, id } = point
+      const { componentName, props, id } = point
       const Component = LoaderComponent(componentName)
-      const style = pick(config, styleKeys)
+      const style = pick(props, styleKeys)
       return (
         <SourceBox
           key={id}
+          id={id}
           type={ItemTypes.BOX}
           componentName={componentName}
         >
-          <Component
-            { ...config }
-            style={style}
-          />
+          <div onClick={() => onComponentClick(id)}>
+            <Component
+              { ...props }
+              style={style}
+              selected={id === activePointId}
+            />
+          </div>
         </SourceBox>
       )
       
     })
   }
 
-  // @ts-ignore
-  onDrop = (item) => {
-    const { componentName, id } = item
-    const { setPoints, points } = this.props
-
-    setPoints([
-      ...points,
-      getDefaultPoint(componentName)
-    ])
-    
-
-  }
-
-
-  render() {
-    const { points } = this.props
-    return (
-      <TargetBox type={ItemTypes.BOX} onDrop={this.onDrop}>
-        <div className="renderer-container">
-          {
-            this.renderComponent(points)
-          }
-        </div>
-      </TargetBox>
-    )
-  }
+  return (
+    <TargetBox type={ItemTypes.BOX} onDrop={onDrop}>
+      <div className="renderer-container">
+        {
+          renderComponent(points)
+        }
+      </div>
+    </TargetBox>
+  )
 }
 
 export namespace Renderer {
 
-  export interface Config {
+  export interface ConfigProps {
     [key: string]: string |number
-  }
-
-  export interface EditableAttr {
-    attrKey: string,
-    name: string
-    viewType: string
   }
 
   export interface Point {
     id: string,
     componentName: string,
-    config: Config,
+    props: ConfigProps,
     editableAttrs: Array<EditableAttr>
   }
 
   export interface Props {
     points: Array<Point>
+    activePointId: string
     setPoints: (poines: Array<Point>) => void
-  }
-
-  export interface State {
-    
+    getActivePointId: (id: string) => void
   }
 }

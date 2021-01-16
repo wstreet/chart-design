@@ -28,28 +28,6 @@ const toolbarActions = {
   SAVE: 'SAVE'
 }
 
-const a=  [
-  {
-    id: 'asad',
-    componentName: 'WDButton',
-    config: { // 放组件的属性和值，可以在form中修改
-      // 组件属性
-      type: 'primary',
-      children: '按钮',
-      //style
-      width: 80,
-      border: '2px solid #ccc'
-    },
-    editableAttrs: [
-      {
-        attrKey: "width",
-        name: "宽度",
-        viewType: "InputNumber"
-      }
-    ]
-  }
-]
-
 const toolbarMenus = [
   {
     id: toolbarActions.CLEAR,
@@ -97,8 +75,12 @@ const toolbarMenus = [
 
 const App = () => {
 
-  const [points, setPoints ] = useState<any>(a)
-  const [activeId, setActiveId] = useState<string>('')
+  const [points, setPoints ] = useState<any>([])
+  const [activePointId, setActivePointId] = useState<string>('')
+
+  const getActivePointId = useCallback((id: string) => {
+    setActivePointId(id)
+  }, [])
 
   const clearCallback = useCallback((e?: any) => {
     setPoints([])
@@ -213,18 +195,18 @@ const App = () => {
                     {...menu}
                     key={menu.id}
                   >
-                    <Button size="small" icon={menu.icon}/> 
+                    <Button size="small">{menu.icon}</Button>
                   </Item>
                 )
               })
             }
           </Toolbar>
           {/* @ts-ignore */}
-          <Renderer points={points} setPoints={setPoints} />
+          <Renderer points={points} activePointId={activePointId} getActivePointId={getActivePointId} setPoints={setPoints} />
         </Content>
         <Sider className="right-sider">
           {/* @ts-ignore */}
-          <AttrForm points={points} activeId={activeId} setPoints={setPoints} />
+          <AttrForm points={points} activePointId={activePointId} setPoints={setPoints} />
         </Sider>
       </Layout>
     </Layout>

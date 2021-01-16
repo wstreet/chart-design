@@ -1,0 +1,23 @@
+
+.wd-component-box {
+  position: relative;
+  display: inline-block;
+  .wd-component-mask {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 99;
+    background-color: rgba(243,249,255,.1);
+    display: inline-block;
+    &:active, &:hover {
+      border: 1px solid #1890ff;
+      cursor: grab;
+    }
+  }
+
+  .wd-component-select-mask {
+    border: 1px solid #1890ff;
+    cursor: grab;
+  }
+
+}
