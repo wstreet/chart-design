@@ -3,6 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin')
 const TerserPlugin = require('terser-webpack-plugin');
 const WebpackBar = require('webpackbar');
 const webpack = require('webpack')
@@ -16,14 +17,14 @@ module.exports = function (env) {
     mode: env,
     // stats: 'errors-only',  // webpack-cli中 const statsPresetToOptions = require("webpack").Stats.presetToOptions;
     context: __dirname,
-    devtool: 'inline-source-map',
+    devtool: 'source-map',
     // 入口文件
     entry: {
       index: './src/index.tsx'
     },
     // 输出文件名称
     output: {
-      filename: '[name].[contenthash].js',
+      filename: 'js/[name].[contenthash].js',
       path: resolve('./dist'),
     },
     resolve: {
@@ -74,8 +75,9 @@ module.exports = function (env) {
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new MiniCssExtractPlugin({
-        filename: '[name][contenthash].css',
-        chunkFilename: '[name][chunkHash].chunk.css',
+        // 相对output.path目录
+        filename: 'css/[name].[contenthash].css',
+        chunkFilename: 'css/[name].[chunkHash].chunk.css',
       })
     ],
   }
@@ -95,7 +97,8 @@ module.exports = function (env) {
   } else {
     baseConfig.plugins.push(
       new CleanWebpackPlugin(),
-    ),
+      new OptimizeCssAssetsPlugin({}),
+    )
     baseConfig.optimization = {
       minimize: true,
       minimizer: [new TerserPlugin()],
