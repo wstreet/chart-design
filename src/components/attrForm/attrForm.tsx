@@ -32,11 +32,29 @@ export const AttrForm = (props: AttrForm.Props) => {
     setTabKey(key)
   }, [])
 
-  const onValuesChange = useCallback((values: Renderer.ConfigProps) => {
-    debugger
+  const formatValue = (valueType: string, value: any) => {
+    switch(valueType) {
+      case 'boolean':
+        return !!value
+      case 'number':
+        return Number(value)
+      default:
+        return value
+    }
+  }
+
+  const updateActivePoint = (values: any) => {
     const changeKey = Object.keys(values)[0]
-    activePoint.props[changeKey] = Number(values[changeKey])
-    points.splice(activeIndex, 1, activePoint)
+    const changeAttr = find(activePoint.editableAttrs, attr => attr.attrKey === changeKey)
+    if (!changeAttr) {
+      return activePoint
+    }
+    activePoint.props[changeKey] = formatValue(changeAttr.valueType, values[changeKey])
+    return activePoint
+  }
+
+  const onValuesChange = useCallback((values: Renderer.ConfigProps) => {
+    points.splice(activeIndex, 1, updateActivePoint(values))
     setPoints([...points])
   }, [points])
 

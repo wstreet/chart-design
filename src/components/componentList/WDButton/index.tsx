@@ -1,22 +1,13 @@
 import React from 'react'
 import { Button } from 'antd'
-import classNames from 'classnames'
-import ComponentItem from './index'
+import Wrapper from '../wrapper'
 
-
+// @ts-ignore
+@Wrapper
 export default class WDButton extends React.Component<WDButton.Props> {
   render() {
-    const selectedCSS = 'wd-component-select-mask'
-    const { selected, ...othProps } = this.props
-    const cls = classNames(
-      'wd-component-mask', 
-      { [selectedCSS]: selected }
-    );
     return (
-      <div className="wd-component-box">
-        <div className={cls}></div>
-        <Button {...this.props} />
-      </div>
+      <Button {...this.props} />
     )
   }
 
@@ -50,36 +41,43 @@ export default class WDButton extends React.Component<WDButton.Props> {
           attrKey: 'children',
           name: 'text',
           viewType: "Input",
+          valueType: 'string'
         },
         {
           attrKey: "block",
           name: "block",
           viewType: "Switch",
+          valueType: 'boolean'
         },
         {
           attrKey: "danger",
           name: "danger",
           viewType: "Switch",
+          valueType: 'boolean'
         },
         {
           attrKey: "disabled",
           name: "disabled",
           viewType: "Switch",
+          valueType: 'boolean'
         },
         {
           attrKey: "ghost",
           name: "ghost",
           viewType: "Switch",
+          valueType: 'boolean'
         },
         {
           attrKey: "href",
           name: "href",
           viewType: "Input",
+          valueType: 'string'
         },
         {
           attrKey: "htmlType",
           name: "htmlType",
           viewType: "Select",
+          valueType: 'boolean',
           dataSource: [
             {
               label: 'button',
@@ -99,17 +97,20 @@ export default class WDButton extends React.Component<WDButton.Props> {
           attrKey: "icon",
           name: "icon",
           viewType: "Select",
+          valueType: 'string',
           dataSource: []
         },
         {
           attrKey: "loading",
           name: "loading",
-          viewType: "Switch"
+          viewType: "Switch",
+          valueType: 'boolean'
         },
         {
           attrKey: "shape",
           name: "shape",
           viewType: "Select",
+          valueType: 'string',
           dataSource: [
             {
               label: 'circle',
@@ -125,6 +126,7 @@ export default class WDButton extends React.Component<WDButton.Props> {
           attrKey: "size",
           name: "size",
           viewType: "Select",
+          valueType: 'string',
           dataSource: [
             {
               label: 'large',
@@ -143,12 +145,14 @@ export default class WDButton extends React.Component<WDButton.Props> {
         {
           attrKey: "target",
           name: "target",
-          viewType: "Input"
+          viewType: "Input",
+          valueType: 'string',
         },
         {
           attrKey: "type",
           name: "type",
           viewType: "Select",
+          valueType: 'string',
           dataSource: [
             {
               label: 'default',
@@ -179,12 +183,14 @@ export default class WDButton extends React.Component<WDButton.Props> {
         {
           attrKey: "onClick",
           name: "onClick",
-          viewType: "TextArea"
+          viewType: "TextArea",
+          valueType: 'string',
         },
         {
           attrKey: "width",
           name: "宽度",
-          viewType: "InputNumber"
+          viewType: "InputNumber",
+          valueType: 'number',
         }
       ]
     }
@@ -194,7 +200,7 @@ export default class WDButton extends React.Component<WDButton.Props> {
 
 
 export namespace WDButton {
-  export type getComponentConfig = () => ComponentItem
+  export type getComponentConfig = () => any
   export interface Props {
     [key: string]: any
   }

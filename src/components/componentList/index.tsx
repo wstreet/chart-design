@@ -39,6 +39,7 @@ export interface EditableAttr {
   attrKey: string,
   name: string
   viewType: string,
+  valueType: string,
   dataSource?: DataSourceItem[]
 }
 

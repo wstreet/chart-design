@@ -2,10 +2,13 @@
 import React from 'react'
 import { Select } from 'antd'
 import ComponentItem from './index'
+import Wrapper from '../wrapper'
 
 const { Option } = Select
 
 
+// @ts-ignore
+@Wrapper
 export default class WDSelect extends React.Component<WDSelect.Props, WDSelect.State> {
   static defaultProps = {
     dataSource: []
