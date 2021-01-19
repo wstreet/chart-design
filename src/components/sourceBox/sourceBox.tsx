@@ -1,10 +1,12 @@
 import React, { FC } from 'react'
 import { useDrag } from 'react-dnd'
 
-const style = {}
+const style = {
+  display: 'inline-block'
+}
 
 export const SourceBox: FC<SourceBox.Props> = (props) => {
-  const { componentName, type, children, id } = props
+  const { componentName, type, children, id, width } = props
   const [{ opacity }, drag] = useDrag({
     item: {
       id,
@@ -20,7 +22,7 @@ export const SourceBox: FC<SourceBox.Props> = (props) => {
 
   return (
     <div 
-      style={{ ...style, opacity }} ref={drag}
+      style={{ ...style, opacity, width }} ref={drag}
     >
       {children}
     </div>
@@ -32,5 +34,7 @@ export namespace SourceBox {
     componentName: string,
     type: symbol
     id?: string
+    width?: number | string
+    height?: number | string
   }
 }

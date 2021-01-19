@@ -26,7 +26,7 @@ export default class WDButton extends React.Component<WDButton.Props> {
         htmlType: 'button',
         icon: '',
         loading: false,
-        shape: [],
+        shape: '',
         size: 'middle',
         target: '',
         type: 'default',

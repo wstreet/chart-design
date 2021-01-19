@@ -52,10 +52,12 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
                 Object.keys(registerComponents).map(name =>  {
                   const { label, imgSrc } = registerComponents[name]
                   return (
-                    <Col key={name} span={24} >
+                    <Col key={name} span={24} style={{ marginBottom: 12 }} >
                       <SourceBox
                         type={ItemTypes.BOX}
                         componentName={name}
+                        width="100%"
+                        height="100%"
                       >
                         <div className="component-item">
                           <img className="component-item-img" src={imgSrc} alt={label} />

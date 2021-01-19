@@ -39,25 +39,25 @@ export const AttrForm = (props: AttrForm.Props) => {
       case 'number':
         return Number(value)
       default:
-        return value
+        return typeof value === 'object' ? value.target.value : value
     }
   }
 
-  const updateActivePoint = (values: any) => {
-    const changeKey = Object.keys(values)[0]
-    const changeAttr = find(activePoint.editableAttrs, attr => attr.attrKey === changeKey)
+  const updateActivePoint = (key: string, value: any) => {
+
+    const changeAttr = find(activePoint.editableAttrs, attr => attr.attrKey === key)
     if (!changeAttr) {
       return activePoint
     }
-    activePoint.props[changeKey] = formatValue(changeAttr.valueType, values[changeKey])
-    return activePoint
+    activePoint.props[key] = formatValue(changeAttr.valueType, value)
+
+    return {...activePoint}
   }
 
-  const onValuesChange = useCallback((values: Renderer.ConfigProps) => {
-    points.splice(activeIndex, 1, updateActivePoint(values))
+  const onValuesChange = (key: string, value: any) => {
+    points.splice(activeIndex, 1, updateActivePoint(key, value))
     setPoints([...points])
-  }, [points])
-
+  }
 
   const renderForm: React.ReactNode = useCallback(() => {
     if (tabKey === 'attrs') {
@@ -66,21 +66,27 @@ export const AttrForm = (props: AttrForm.Props) => {
           labelCol={{ span: 10 }}
           wrapperCol={{ span: 12 }}
           layout="horizontal"
+          // onValuesChange={onValuesChange}
           initialValues={activePoint.props}
-          onValuesChange={onValuesChange}
         >
           {
             activePoint.editableAttrs.map(attr => {
               const { viewType, dataSource = [] } = attr
               // @ts-ignore
               const Component = formComponents[viewType]
+
+              const valueProps = {
+                [attr.viewType === 'Switch' ? 'checked' : 'value']: activePoint.props[attr.attrKey],
+                onChange: (val: any) => onValuesChange(attr.attrKey, val)
+              }
+           
               return (
-                <Form.Item label={attr.name} name={attr.attrKey} key={attr.attrKey}>
+                <Form.Item label={attr.name} name={attr.attrKey} key={attr.attrKey} >
                   {
                     viewType !== 'Select'
-                    ? <Component size="small" />
+                    ? <Component size="small" {...valueProps} />
                     : (
-                      <Component size="small">
+                      <Component size="small" {...valueProps} allowClear >
                         {
                           dataSource.map((item: any) => {
                             const { Option } = Component
@@ -99,7 +105,7 @@ export const AttrForm = (props: AttrForm.Props) => {
       )
     }
     return tabKey
-  }, [tabKey])
+  }, [tabKey, activePointId])
 
   
 

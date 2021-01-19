@@ -47,7 +47,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
     if (movePoint) {
       // move: update movePoint position
       // ...
-      points.splice(movePointIndex, 1, movePoint) 
+      points.splice(movePointIndex, 1, movePoint)
     } else {
       // add: 
       points.push(
