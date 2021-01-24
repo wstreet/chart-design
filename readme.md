@@ -1,3 +1,3 @@
-# WEB Dedign
+# Chart Dedign
 
-PC端网页拖拽布局
+拖拽生成可视化大屏

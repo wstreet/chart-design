@@ -19,7 +19,7 @@ const tabs = [
 ]
 
 export const AttrForm = (props: AttrForm.Props) => {
-  const { activePointId, points, setPoints } = props
+  const { activePointId, points, updatePoints } = props
   const activePoint: Renderer.Point | undefined = find(points, p => p.id === activePointId)
   const activeIndex: number = findIndex(points, p => p.id === activePointId)
 
@@ -56,7 +56,7 @@ export const AttrForm = (props: AttrForm.Props) => {
 
   const onValuesChange = (key: string, value: any) => {
     points.splice(activeIndex, 1, updateActivePoint(key, value))
-    setPoints([...points])
+    updatePoints([...points])
   }
 
   const renderForm: React.ReactNode = useCallback(() => {
@@ -137,6 +137,6 @@ export namespace AttrForm {
   export interface Props {
     points: Renderer.Point[]
     activePointId: string
-    setPoints: (points: Renderer.Point[]) => void
+    updatePoints: (points: Renderer.Point[]) => void
   }
 }

@@ -41,7 +41,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
 
   const onDrop = (item: any) => {
     const { componentName, id } = item
-    const { setPoints, points } = props
+    const { updatePoints, points } = props
     const movePointIndex =  findIndex(points, (p: Renderer.Point) => p.id === id)
     const movePoint =  find(points, (p: Renderer.Point) => p.id === id)
     if (movePoint) {
@@ -54,7 +54,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
         getDefaultPoint(componentName)
       )
     }
-    setPoints([ ...points])
+    updatePoints([ ...points])
   }
 
   const renderComponent = (
@@ -112,7 +112,7 @@ export namespace Renderer {
   export interface Props {
     points: Array<Point>
     activePointId: string
-    setPoints: (poines: Array<Point>) => void
+    updatePoints: (poines: Array<Point>) => void
     getActivePointId: (id: string) => void
   }
 }

@@ -9,7 +9,7 @@ import {
 } from '@ant-design/icons'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Toolbar from 'components/toolbar'
-import Renderer from 'components/renderer'
+import Renderer, { doManger } from 'components/renderer'
 import LeftSider from 'components/leftSider'
 import AttrForm from 'components/attrForm'
 import './index.less'
@@ -28,62 +28,75 @@ const toolbarActions = {
   SAVE: 'SAVE'
 }
 
-const toolbarMenus = [
-  {
-    id: toolbarActions.CLEAR,
-    tooltip: '清空',
-    hotKey: 'Ctrl + D',
-    icon: <ClearOutlined />
-  },
-  {
-    id: toolbarActions.UNDO,
-    tooltip: '撤销',
-    hotKey: 'Ctrl + Z',
-    icon: <UndoOutlined />
-  },
-  {
-    id: toolbarActions.REDO,
-    tooltip: '恢复',
-    hotKey: 'Ctrl + Y',
-    icon: <RedoOutlined />
-  },
-  {
-    id: toolbarActions.COPY,
-    tooltip: '复制',
-    hotKey: 'Ctrl + C',
-    icon: <CopyOutlined />
-  },
-  {
-    id: toolbarActions.CUT,
-    tooltip: '剪切',
-    hotKey: 'Ctrl + X',
-    icon: <ScissorOutlined />
-  },
-  {
-    id: toolbarActions.PASTE,
-    tooltip: '粘贴',
-    hotKey: 'Ctrl + V',
-    icon: <SnippetsOutlined />
-  },
-  {
-    id: toolbarActions.SAVE,
-    tooltip: '保存',
-    hotKey: 'Ctrl + S',
-    icon: <SaveOutlined />
-  },
-]
 
 const App = () => {
 
   const [points, setPoints ] = useState<any>([])
+  
   const [activePointId, setActivePointId] = useState<string>('')
+
+  useEffect(() => {
+    doManger.add([])
+  }, [])
+
+  const toolbarMenus = [
+    {
+      id: toolbarActions.CLEAR,
+      tooltip: '清空',
+      hotKey: 'Ctrl + D',
+      icon: <ClearOutlined />,
+    },
+    {
+      id: toolbarActions.UNDO,
+      tooltip: '撤销',
+      hotKey: 'Ctrl + Z',
+      icon: <UndoOutlined />,
+      disabled: !doManger.canUndo()
+    },
+    {
+      id: toolbarActions.REDO,
+      tooltip: '恢复',
+      hotKey: 'Ctrl + Y',
+      icon: <RedoOutlined />,
+      disabled: !doManger.canRedo()
+    },
+    {
+      id: toolbarActions.COPY,
+      tooltip: '复制',
+      hotKey: 'Ctrl + C',
+      icon: <CopyOutlined />
+    },
+    {
+      id: toolbarActions.CUT,
+      tooltip: '剪切',
+      hotKey: 'Ctrl + X',
+      icon: <ScissorOutlined />
+    },
+    {
+      id: toolbarActions.PASTE,
+      tooltip: '粘贴',
+      hotKey: 'Ctrl + V',
+      icon: <SnippetsOutlined />
+    },
+    {
+      id: toolbarActions.SAVE,
+      tooltip: '保存',
+      hotKey: 'Ctrl + S',
+      icon: <SaveOutlined />
+    },
+  ]
 
   const getActivePointId = useCallback((id: string) => {
     setActivePointId(id)
   }, [])
 
+  const updatePoints = (points: any) => {
+    doManger.add([...points])
+    setPoints(points)
+  }
+
   const clearCallback = useCallback((e?: any) => {
-    setPoints([])
+    updatePoints([])
     if (e) {
       console.log(e)
       e.preventDefault()
@@ -91,12 +104,23 @@ const App = () => {
   }, [])
 
   const undoCallback = useCallback((e?: any) => {
+    if(!doManger.canUndo()) {
+      return
+    }
+    const points = doManger.undo() || []
+    setPoints(points)
+
     if (e) {
       console.log(e)
       e.preventDefault()
     }
   }, [])
   const redoCallback = useCallback((e?: any) => {
+    if(!doManger.canRedo()) {
+      return
+    }
+    const points = doManger.redo()
+    setPoints(points)
     if (e) {
       console.log(e)
       e.preventDefault()
@@ -174,6 +198,8 @@ const App = () => {
     }
   }, [])
 
+  
+
   return (
     <DndProvider backend={HTML5Backend}>
       <Layout>
@@ -195,18 +221,18 @@ const App = () => {
                     {...menu}
                     key={menu.id}
                   >
-                    <Button size="small">{menu.icon}</Button>
+                    <Button size="small" disabled={menu.disabled}>{menu.icon}</Button>
                   </Item>
                 )
               })
             }
           </Toolbar>
           {/* @ts-ignore */}
-          <Renderer points={points} activePointId={activePointId} getActivePointId={getActivePointId} setPoints={setPoints} />
+          <Renderer points={points} activePointId={activePointId} getActivePointId={getActivePointId} updatePoints={updatePoints} />
         </Content>
         <Sider className="right-sider">
           {/* @ts-ignore */}
-          <AttrForm points={points} activePointId={activePointId} setPoints={setPoints} />
+          <AttrForm points={points} activePointId={activePointId} updatePoints={updatePoints} />
         </Sider>
       </Layout>
     </Layout>
