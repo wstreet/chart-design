@@ -5,7 +5,6 @@
 
 import { ComponentClass } from 'react'
 import WDButton from './WDButton'
-import WDSelect from './WDSelect'
 
 import './index.less'
 
@@ -20,7 +19,6 @@ export const registerComponent = (Component: ComponentWithConfig ) => {
 }
 
 registerComponent(WDButton)
-registerComponent(WDSelect)
 
 interface ComponentWithConfig extends ComponentClass {
   getComponentConfig: () => ComponentConfig;

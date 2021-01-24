@@ -205,7 +205,7 @@ const App = () => {
       <Layout>
       <Header>
         <div className="wd-header">
-          <div className="logo">WEB Design</div>
+          <div className="logo">Chart Design</div>
           
         </div>
         {/* <div className="clear"></div> */}

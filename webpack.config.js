@@ -71,7 +71,7 @@ module.exports = function (env) {
       new WebpackBar(),
       new HtmlWebpackPlugin({
         template: resolve('./public/index.html'),
-        title: 'Web Design'
+        title: 'Chart Design'
       }),
       new webpack.IgnorePlugin(/^\.\/locale$/, /moment$/),
       new MiniCssExtractPlugin({
