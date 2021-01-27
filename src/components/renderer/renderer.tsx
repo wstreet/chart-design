@@ -1,5 +1,5 @@
 import React, { FC } from 'react'
-import LoaderComponent from 'components/dynamic'
+import LoaderComponent from 'components/loaderComponent'
 import pick from 'lodash/pick'
 import TargetBox from 'components/targetBox'
 import SourceBox from 'components/sourceBox'
@@ -16,7 +16,7 @@ const getDefaultPoint = (componentName: string) => {
     id: getId(),
     componentName,
     props: {
-      ...Component.defaultProps,
+      // ...Component.defaultProps,
       // 根据鼠标坐标更新组件位置
     },
     editableAttrs: [...Component.editableAttrs]

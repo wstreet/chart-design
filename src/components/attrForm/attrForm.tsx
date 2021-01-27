@@ -1,11 +1,12 @@
 import React, { useCallback, useState } from 'react'
-import { Tabs, Form, Empty } from 'antd'
+import { Tabs, Form, Empty, Collapse } from 'antd'
 import Renderer from 'components/renderer'
 import formComponents from 'components/formComponents'
 import { find, findIndex } from 'lodash'
 import './index.less'
 
 const { TabPane } = Tabs;
+const { Panel } = Collapse;
 
 const tabs = [
   {
@@ -70,37 +71,50 @@ export const AttrForm = (props: AttrForm.Props) => {
           initialValues={activePoint.props}
         >
           {
-            activePoint.editableAttrs.map(attr => {
-              const { viewType, dataSource = [] } = attr
-              // @ts-ignore
-              const Component = formComponents[viewType]
-
-              const valueProps = {
-                [attr.viewType === 'Switch' ? 'checked' : 'value']: activePoint.props[attr.attrKey],
-                onChange: (val: any) => onValuesChange(attr.attrKey, val)
+            <Collapse >
+              {
+                activePoint.editableAttrs.map(group => {
+                  return (
+                    
+                    <Panel header={group.title} key={group.key}>
+                      {
+                        group.attrs.map((attr: { viewType: any; attrKey?: any; name?: any; dataSource?: any }) => {
+                          const { viewType, dataSource = [] } = attr
+                          // @ts-ignore
+                          const Component = formComponents[viewType]
+            
+                          const valueProps = {
+                            [attr.viewType === 'Switch' ? 'checked' : 'value']: activePoint.props[attr.attrKey],
+                            onChange: (val: any) => onValuesChange(attr.attrKey, val)
+                          }
+                       
+                          return (
+                            <Form.Item label={attr.name} name={attr.attrKey} key={attr.attrKey} >
+                              {
+                                viewType !== 'Select'
+                                ? <Component size="small" {...valueProps} />
+                                : (
+                                  <Component size="small" {...valueProps} allowClear >
+                                    {
+                                      dataSource.map((item: any) => {
+                                        const { Option } = Component
+                                        return <Option key={item.value} value={item.value}>{item.label}</Option>
+                                      })
+                                    }
+                                  </Component>
+                                )
+                              }
+                            </Form.Item>
+                          )
+                        })
+                      }
+                    </Panel>
+                  )
+                  
+                })
               }
-           
-              return (
-                <Form.Item label={attr.name} name={attr.attrKey} key={attr.attrKey} >
-                  {
-                    viewType !== 'Select'
-                    ? <Component size="small" {...valueProps} />
-                    : (
-                      <Component size="small" {...valueProps} allowClear >
-                        {
-                          dataSource.map((item: any) => {
-                            const { Option } = Component
-                            return <Option key={item.value} value={item.value}>{item.label}</Option>
-                          })
-                        }
-                      </Component>
-                    )
-                  }
-                </Form.Item>
-              )
-            })
+            </Collapse>
           }
-
         </Form>
       )
     }

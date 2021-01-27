@@ -2,7 +2,7 @@
 // 对组件库的组件进行封装一层,达到以下效果
 // 1、可以对外提供可配置的属性
 // 2、可以拖拽到画布或者在画布中拖动布局
-
+import { ReactNode } from 'react'
 import { ComponentClass } from 'react'
 import WDButton from './WDButton'
 
@@ -18,7 +18,7 @@ export const registerComponent = (Component: ComponentWithConfig ) => {
   registerComponents[componentName] = config
 }
 
-registerComponent(WDButton)
+// registerComponent(WDButton)
 
 interface ComponentWithConfig extends ComponentClass {
   getComponentConfig: () => ComponentConfig;
@@ -34,6 +34,9 @@ interface DataSourceItem {
 }
 
 export interface EditableAttr {
+  attrs: any
+  title?: ReactNode
+  key?: string
   attrKey: string,
   name: string
   viewType: string,
