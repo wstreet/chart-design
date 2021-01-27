@@ -75,12 +75,11 @@ export const AttrForm = (props: AttrForm.Props) => {
               {
                 activePoint.editableAttrs.map(group => {
                   return (
-                    
                     <Panel header={group.title} key={group.key}>
                       {
-                        group.attrs.map((attr: { viewType: any; attrKey?: any; name?: any; dataSource?: any }) => {
+                        group.attrs.map(attr => {
                           const { viewType, dataSource = [] } = attr
-                          // @ts-ignore
+                        
                           const Component = formComponents[viewType]
             
                           const valueProps = {
@@ -115,6 +114,7 @@ export const AttrForm = (props: AttrForm.Props) => {
               }
             </Collapse>
           }
+
         </Form>
       )
     }
@@ -137,7 +137,7 @@ export const AttrForm = (props: AttrForm.Props) => {
             disabled={tab.key === 'structure'}
           >
             {
-              // @ts-ignore
+              
               renderForm()
             }
           </TabPane>
