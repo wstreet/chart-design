@@ -1,8 +1,8 @@
 const defaultProps = {
   width: 400,
-  heith: 400,
-  title: '一级标题',
-  subtitle: '副标题',
+  height: 240,
+  title: '折线图',
+  subTitle: '一个简单的折线图',
   position: 'top',
   offsetX: 0,
   offsetY: 0,

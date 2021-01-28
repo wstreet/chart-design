@@ -7,7 +7,6 @@ import ItemTypes from 'components/itemTypes'
 import { EditableAttr } from 'components/componentList'
 import { getId } from 'utils/index'
 import { findIndex, find } from  'lodash'
-import LineChart from 'components/charts/line'
 import './index.less'
 
 const getDefaultPoint = (componentName: string) => {
@@ -92,7 +91,6 @@ export const Renderer: FC<Renderer.Props> = (props) => {
         {
           renderComponent(points)
         }
-        <LineChart data={[]} />
       </div>
     </TargetBox>
   )

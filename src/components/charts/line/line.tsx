@@ -2,9 +2,15 @@ import { Line, LineOptions, G2, Options } from '@antv/g2plot';
 import React, { FC, useEffect, useRef } from 'react'
 import ErrorBoundary from '../errorBoundary'
 import ChartLoading from '../chartLoading'
+import Wrapper from 'components/componentList/wrapper'
+
+const padding = 20
+const margin = 12
 
 
 interface ContainerProps {
+  title?: React.ReactNode;
+  subTitle?: React.ReactNode;
   style?: React.CSSProperties;
   className?: string;
   loading?: boolean;
@@ -24,13 +30,17 @@ interface IProps extends LineOptions, ContainerProps {
 const LineChart: FC<IProps> = (props) => {
   const container = useRef(null)
   const {
-    style = {
-      height: '100%',
-    },
+    // style = {
+    //   height: '100%',
+    // },
     className,
     loading,
     loadingTemplate,
     errorTemplate,
+    width,
+    height,
+    title,
+    subTitle,
     ...rest
   } = props;
 
@@ -44,6 +54,7 @@ const LineChart: FC<IProps> = (props) => {
         padding: 'auto',
         xField: 'Date',
         yField: 'scales',
+        height: height ? height - 52 - padding * 2 : 240,
         xAxis: {
           // type: 'timeCat',
           tickCount: 5,
@@ -56,9 +67,17 @@ const LineChart: FC<IProps> = (props) => {
   return (
     <ErrorBoundary>
       {loading && <ChartLoading loadingTemplate={loadingTemplate} />}
-      <div className={className} style={style} ref={container} />
+      <div style={{ background: '#fff', width, height, padding, margin }}>
+        {
+          title && <div className="cd-title">{title}</div>
+        }
+        {
+          subTitle && <div className="cd-sub-title">{subTitle}</div>
+        }
+        <div className={className} ref={container} />
+      </div>
     </ErrorBoundary>
   )
 }
 
-export default LineChart
+export default Wrapper(LineChart)

@@ -1,6 +1,7 @@
 
-
 import LineChart from './line'
+
+import './common.less'
 
 export const registerCharts = {
   line: LineChart

@@ -4,16 +4,21 @@ import {
   Input,
   InputNumber,
   Switch,
+  Radio
 } from 'antd'
+import Color from './color'
 
 const { TextArea } = Input
+const RadioGroup = Radio.Group
 
 const formComponents =  {
-  Input: Input,
+  Input,
   Select: Select,
   InputNumber: InputNumber,
   TextArea,
-  Switch
+  Switch,
+  Color,
+  RadioGroup
 }
 
 export default formComponents

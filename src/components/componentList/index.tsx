@@ -6,7 +6,6 @@ import { ReactNode } from 'react'
 import { ComponentClass } from 'react'
 import WDButton from './WDButton'
 
-import './index.less'
 
 
 
