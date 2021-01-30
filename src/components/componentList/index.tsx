@@ -9,7 +9,7 @@ import WDButton from './WDButton'
 
 
 
-export const registerComponents: ComponentMap = {}
+const registerComponents: ComponentMap = {}
 
 export const registerComponent = (Component: ComponentWithConfig ) => {
   const config = Component.getComponentConfig()
@@ -35,7 +35,7 @@ interface DataSourceItem {
 export interface EditableAttr {
   attrs: any
   title?: ReactNode
-  key?: string
+  groupKey: string
   attrKey: string,
   name: string
   viewType: string,

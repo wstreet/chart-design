@@ -1,4 +1,4 @@
-import React from 'react'
+
 import {
   Select,
   Input,
@@ -23,6 +23,3 @@ const formComponents =  {
 
 export default formComponents
 
-// interface FormComponent {
-//   [key: string]: React.ReactNode
-// }

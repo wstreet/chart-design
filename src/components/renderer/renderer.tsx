@@ -15,7 +15,7 @@ const getDefaultPoint = (componentName: string) => {
     id: getId(),
     componentName,
     props: {
-      // ...Component.defaultProps,
+      ...Component.defaultProps,
       // 根据鼠标坐标更新组件位置
     },
     editableAttrs: [...Component.editableAttrs]
@@ -39,6 +39,24 @@ export const Renderer: FC<Renderer.Props> = (props) => {
     getActivePointId(id)
   }
 
+  const onResize = (rect, id) => {
+    const { updatePoints, points } = props
+    const resizePointIndex =  findIndex(points, (p: Renderer.Point) => p.id === id)
+    const resizePoint =  find(points, (p: Renderer.Point) => p.id === id)
+
+    if (!resizePoint) {
+      return
+    }
+    resizePoint.props = {
+      ...resizePoint.props,
+      // 减去margin * 2
+      width: rect.width - 24,
+      height: rect.height - 24
+    }
+    points.splice(resizePointIndex, 1, resizePoint)
+    updatePoints([ ...points])
+  }
+
   const onDrop = (item: any) => {
     const { componentName, id } = item
     const { updatePoints, points } = props
@@ -57,6 +75,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
     updatePoints([ ...points])
   }
 
+
   const renderComponent = (
     points: Array<Renderer.Point>
   ): React.ReactNode => {
@@ -71,14 +90,16 @@ export const Renderer: FC<Renderer.Props> = (props) => {
           id={id}
           type={ItemTypes.BOX}
           componentName={componentName}
+          resizable
+          selected={id === activePointId}
+          onClick={onComponentClick}
+          onResize={(rect => onResize(rect, id))}
         >
-          <div onClick={() => onComponentClick(id)}>
-            <Component
-              { ...props }
-              style={style}
-              selected={id === activePointId}
-            />
-          </div>
+          <Component
+            { ...props }
+            style={style}
+            
+          />
         </SourceBox>
       )
       

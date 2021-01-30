@@ -2,7 +2,7 @@ import { Line, LineOptions, G2, Options } from '@antv/g2plot';
 import React, { FC, useEffect, useRef } from 'react'
 import ErrorBoundary from '../errorBoundary'
 import ChartLoading from '../chartLoading'
-import Wrapper from 'components/componentList/wrapper'
+// import Wrapper from 'components/componentList/wrapper'
 
 const padding = 20
 const margin = 12
@@ -30,9 +30,6 @@ interface IProps extends LineOptions, ContainerProps {
 const LineChart: FC<IProps> = (props) => {
   const container = useRef(null)
   const {
-    // style = {
-    //   height: '100%',
-    // },
     className,
     loading,
     loadingTemplate,
@@ -80,4 +77,4 @@ const LineChart: FC<IProps> = (props) => {
   )
 }
 
-export default Wrapper(LineChart)
+export default LineChart

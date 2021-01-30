@@ -1,25 +1,25 @@
 const editableAttrs = [
   {
     title: '图表容器',
-    key: 'chart_container',
+    groupKey: 'chart_container',
     attrs: [
       {
-        key: 'width',
+        attrKey: 'width',
         name: '宽度',
         viewType: 'InputNumber'
       },
       {
-        key: 'height',
+        attrKey: 'height',
         name: '高度',
         viewType: 'InputNumber'
       },
       {
-        key: 'title',
+        attrKey: 'title',
         name: '标题',
         viewType: 'Input'
       },
       {
-        key: 'subtitle',
+        attrKey: 'subtitle',
         name: '副标题',
         viewType: 'Input'
       }
@@ -27,10 +27,10 @@ const editableAttrs = [
   },
   {
     title: '图例',
-    key: 'chart_legend',
+    groupKey: 'chart_legend',
     attrs: [
       {
-        key: 'position',
+        attrKey: 'position',
         name: '位置',
         viewType: 'RadioGroup',
         options: [
@@ -41,12 +41,12 @@ const editableAttrs = [
         ]
       },
       {
-        key: 'offsetX',
+        attrKey: 'offsetX',
         name: 'X偏移',
         viewType: 'InputNumber'
       },
       {
-        key: 'offsetY',
+        attrKey: 'offsetY',
         name: 'Y偏移',
         viewType: 'InputNumber'
       }
@@ -54,15 +54,15 @@ const editableAttrs = [
   },
   {
     title: '图形数据',
-    key: 'chart_data',
+    groupKey: 'chart_data',
     attrs: [
       {
-        key: 'lineNumber',
+        attrKey: 'lineNumber',
         name: '折线数量',
         viewType: 'InputNumber'
       },
       {
-        key: 'dimensionItems',
+        attrKey: 'dimensionItems',
         name: '维度项数',
         viewType: 'InputNumber'
       }
@@ -70,16 +70,16 @@ const editableAttrs = [
   },
   {
     title: '图形属性',
-    key: 'chart_properties',
+    groupKey: 'chart_properties',
     attrs: [
       {
-        key: 'type',
+        attrKey: 'type',
         name: '类别',
         viewType: 'Select',
         options: []
       },
       {
-        key: 'color',
+        attrKey: 'color',
         name: '颜色',
         viewType: 'Color',
       }

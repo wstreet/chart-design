@@ -1,5 +1,6 @@
 import React, { useCallback, useState } from 'react'
 import { Tabs, Form, Empty, Collapse } from 'antd'
+import { CaretRightOutlined } from '@ant-design/icons';
 import Renderer from 'components/renderer'
 import formComponents from 'components/formComponents'
 import { find, findIndex } from 'lodash'
@@ -45,13 +46,11 @@ export const AttrForm = (props: AttrForm.Props) => {
   }
 
   const updateActivePoint = (key: string, value: any) => {
-
     const changeAttr = find(activePoint.editableAttrs, attr => attr.attrKey === key)
     if (!changeAttr) {
       return activePoint
     }
     activePoint.props[key] = formatValue(changeAttr.valueType, value)
-
     return {...activePoint}
   }
 
@@ -71,29 +70,32 @@ export const AttrForm = (props: AttrForm.Props) => {
           initialValues={activePoint.props}
         >
           {
-            <Collapse >
+            <Collapse
+              defaultActiveKey={['chart_container']}
+              expandIcon={({ isActive }) => <CaretRightOutlined rotate={isActive ? 90 : 0} />}
+            >
               {
                 activePoint.editableAttrs.map(group => {
                   return (
-                    <Panel header={group.title} key={group.key}>
+                    <Panel header={group.title} key={group.groupKey}>
                       {
                         group.attrs.map(attr => {
-                          const { viewType, dataSource = [] } = attr
+                          const { attrKey, viewType, dataSource = [] } = attr
                         
                           const Component = formComponents[viewType]
             
                           const valueProps = {
-                            [attr.viewType === 'Switch' ? 'checked' : 'value']: activePoint.props[attr.attrKey],
-                            onChange: (val: any) => onValuesChange(attr.attrKey, val)
+                            [attr.viewType === 'Switch' ? 'checked' : 'value']: activePoint.props[attrKey],
+                            onChange: (val: any) => onValuesChange(attrKey, val)
                           }
                        
                           return (
-                            <Form.Item label={attr.name} name={attr.attrKey} key={attr.attrKey} >
+                            <Form.Item label={attr.name} name={attrKey} key={attrKey} >
                               {
                                 viewType !== 'Select'
-                                ? <Component size="small" {...valueProps} />
+                                ? <Component style={{ width: '100%' }} size="small" {...valueProps} />
                                 : (
-                                  <Component size="small" {...valueProps} allowClear >
+                                  <Component style={{ width: '100%' }} size="small" {...valueProps} allowClear >
                                     {
                                       dataSource.map((item: any) => {
                                         const { Option } = Component
@@ -137,7 +139,7 @@ export const AttrForm = (props: AttrForm.Props) => {
             disabled={tab.key === 'structure'}
           >
             {
-              
+              // @ts-ignore
               renderForm()
             }
           </TabPane>
