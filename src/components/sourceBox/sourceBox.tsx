@@ -41,8 +41,6 @@ export const SourceBox: FC<SourceBox.Props> = (props) => {
   })
 
   const chartBoxRef = useRef<HTMLDivElement>(null)
-  const [destoryBody, setDestoryBody] = useState({ destory(){} })
-  
 
   const handleClick = useCallback(() => {
     onClick(id!)
@@ -67,24 +65,18 @@ export const SourceBox: FC<SourceBox.Props> = (props) => {
       chartBoxRef.current.style.height = `${originBox[1] + pageY- originPoint[1]}px`
       
     })
-    setDestoryBody(destory)
+    document.addEventListener('mouseup', () => {
+      const chartBoxRect = chartBoxRef.current!.getBoundingClientRect()
+      destory.destory()
+
+      onResize(chartBoxRect)
+    })
   }, [])
 
-  const onMouseUp = useCallback((e) => {
-    if (!chartBoxRef.current) {
-      return
-    }
-    const chartBoxRect = chartBoxRef.current.getBoundingClientRect()
-    destoryBody.destory()
 
-    onResize(chartBoxRect)
-   
-  }, [destoryBody])
-
-
-  const selectedCSS = 'wd-component-select-mask'
+  const selectedCSS = 'cd-component-select-mask'
   const cls = classNames(
-    'wd-component-mask', 
+    'cd-component-mask', 
     { [selectedCSS]: selected }
   );
 
@@ -100,20 +92,17 @@ export const SourceBox: FC<SourceBox.Props> = (props) => {
   }
 
   return (
-    <div className="wd-component-box" onClick={handleClick}>
+    <div
+      className="cd-component-box" onClick={handleClick}
+      style={{ ...style, opacity, position: 'relative' }}
+      ref={chartBoxRef}
+    >
       <div className={cls} />
+      {children}
       <div
-        className={classNames({'wd-component-controller-point': selected})} 
-        onMouseDown={onMouseDown} 
-        onMouseUp={onMouseUp}
+        className={classNames('cd-component-controller-point')} 
+        onMouseDown={onMouseDown}
       />
-      <div 
-        style={{ ...style, opacity, width }}
-        // ref={drag}
-        ref={chartBoxRef}
-      >
-        {children}
-      </div>
     </div>
   )
 }

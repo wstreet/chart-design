@@ -1,8 +1,8 @@
 
-.wd-component-box {
+.cd-component-box {
   position: relative;
-  display: inline-block;
-  .wd-component-mask {
+  // display: inline-block;
+  .cd-component-mask {
     position: absolute;
     height: 100%;
     width: 100%;
@@ -15,19 +15,25 @@
     }
   }
 
-  .wd-component-select-mask {
+  .cd-component-select-mask {
     border: 1px solid #1890ff;
     cursor: grab;
   }
-  .wd-component-controller-point {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    height: 0;
-    width: 0;
-    border: solid 3px #1890ff;
+
+}
+
+.cd-component-controller-point {
+  position: absolute;
+    bottom: 4px;
+    right: 4px;
+    height: 12px;
+    width: 12px;
     z-index: 100;
     cursor: se-resize;
-  }
-
+    background: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHN0eWxlPSJiYWNrZ3JvdW5kLWNvbG9yOiNmZmZmZmYwMCIgd2lkdGg9IjYiIGhlaWdodD0iNiI+PHBhdGggZD0iTTYgNkgwVjQuMmg0LjJWMEg2djZ6IiBvcGFjaXR5PSIuMzAyIi8+PC9zdmc+');
+    background-position: 100% 100%;
+    background-repeat: no-repeat;
+    background-origin: content-box;
+    box-sizing: border-box;
+    background-size: 50% 50%;
 }

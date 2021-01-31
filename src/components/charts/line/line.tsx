@@ -2,10 +2,22 @@ import { Line, LineOptions, G2, Options } from '@antv/g2plot';
 import React, { FC, useEffect, useRef } from 'react'
 import ErrorBoundary from '../errorBoundary'
 import ChartLoading from '../chartLoading'
+import pick from 'lodash/pick'
 // import Wrapper from 'components/componentList/wrapper'
 
 const padding = 20
 const margin = 12
+
+
+const styleKeys = [
+  'position',
+  'top', 
+  'bottom', 
+  'right',
+  'left',
+  'width',
+  'height',
+]
 
 
 interface ContainerProps {
@@ -61,10 +73,17 @@ const LineChart: FC<IProps> = (props) => {
     });
   }, [])
 
+  const getStyle = () => {
+    // pick(props, styleKeys)
+    return {}
+  }
+
+  const style = getStyle()
+
   return (
     <ErrorBoundary>
       {loading && <ChartLoading loadingTemplate={loadingTemplate} />}
-      <div style={{ background: '#fff', width, height, padding, margin }}>
+      <div style={{ ...style, background: '#fff', width, height, padding, margin, display: 'inline-block' }}>
         {
           title && <div className="cd-title">{title}</div>
         }
