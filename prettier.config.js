@@ -3,4 +3,4 @@ exports.module = {
   singleQuote: true,
   semi: false,
   bracketSpacing: true,
-}
+};
