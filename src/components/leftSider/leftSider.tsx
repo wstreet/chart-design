@@ -61,7 +61,10 @@ export class LeftSider extends React.Component<LeftSider.Props, LeftSider.State>
                         height="100%"
                       >
                         <div className="component-item">
-                          <img className="component-item-img" src={img} alt={label} />
+                          
+                          <div className="component-item-img">
+                            <img  src={img} alt={label} />
+                          </div>
                           <div className="component-item-name">{label}</div>
                         </div>
                       </SourceBox>

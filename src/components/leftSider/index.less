@@ -1,8 +1,8 @@
 .left-menu-container {
-  width: 250px;
+  width: 180px;
   .ant-tabs-left {
     .ant-tabs-nav {
-      background: #396efe;
+      background: #873bf4;
       color: #ffffff;
       width: 56px;
       border-right: 1px solid #f0f0f0;
@@ -15,7 +15,7 @@
         }
         
         &:hover {
-          background: #2a5eee;
+          background: #8335f1;
           color: #ffffff;
           font-weight: 600;
           
@@ -31,7 +31,11 @@
 
       .ant-tabs-tab-active, .ant-tabs-tab-active:hover {
         background: #ffffff;
-        color: #327DFF;
+        color: #873bf4;
+        .ant-tabs-tab-btn {
+          color: #873bf4;
+          text-shadow:none
+        }
         .left-menu-name {
           font-weight: 600;
           font-size: 12px;
@@ -69,26 +73,29 @@
   .ant-card-body {
     height: calc(100vh - 100px);
     overflow-y: scroll;
+    padding: 10px;
   }
   
 }
 
-
-
 .component-item {
   height: 70px;
-  border: 1px solid #f0f0f0;
-  // margin-bottom: 24px;
+  border: 1px solid #ebedf0;
   overflow: hidden;
+  position: relative;
   cursor: grab;
   &:hover {
-    border: 1px solid #d3d3d3;
+    border: 1px solid #873bf4;
   }
   .component-item-img {
-    height: 40px;
-    width: 100%;
+    height: 48px;
+    img {
+      width: 100%;
+    }
   }
   .component-item-name {
+    height: 20px;
     text-align: center;
+    background-color: rgba(135,59,244,.1);
   }
 }

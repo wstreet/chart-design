@@ -1,5 +1,5 @@
 declare module '*.svg' {
-  const content: SvgrComponent
+  const content: SVGElement
   export default content
 }
 

@@ -2,10 +2,11 @@ import React,  { useEffect, useState, useCallback } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 import { Button, Layout  } from 'antd'
+
 import { 
   ClearOutlined, UndoOutlined, RedoOutlined, 
   CopyOutlined, ScissorOutlined, SnippetsOutlined,
-  SaveOutlined
+  SaveOutlined, RightOutlined
 } from '@ant-design/icons'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Toolbar from 'components/toolbar'
@@ -233,6 +234,9 @@ const App = () => {
         <Sider className="right-sider">
           {/* @ts-ignore */}
           <AttrForm points={points} activePointId={activePointId} updatePoints={updatePoints} />
+          <div className="right-fold">
+            <RightOutlined />
+          </div>
         </Sider>
       </Layout>
     </Layout>
