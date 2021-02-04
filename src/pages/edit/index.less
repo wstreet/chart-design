@@ -1,5 +1,3 @@
-
-
 .clear {
   clear: both;
 }
@@ -12,11 +10,12 @@
 
 .right-sider {
   // padding-left: 20px;
-  flex: 0 0 300px!important;
-  max-width: 300px!important;
-  min-width: 300px!important;
-  width: 300px!important;
+  flex: 0 0 300px !important;
+  max-width: 300px !important;
+  min-width: 300px !important;
+  width: 300px !important;
   position: relative;
+  transition: 0.2s all ease-out;
   .ant-tabs-nav {
     margin: 0;
   }
@@ -32,7 +31,7 @@
       border-top: 1px solid #f0f0f0;
     }
   }
-  
+
   .right-fold {
     width: 16px;
     height: 40px;
@@ -49,5 +48,14 @@
     display: flex;
     align-items: center;
     cursor: pointer;
+    z-index: 9999;
   }
+}
+
+.close {
+  flex: 0 0 0 !important;
+  max-width: 0 !important;
+  min-width: 0 !important;
+  width: 0 !important;
+  transition: 0.2s all cubic-bezier(0.7, 0.3, 0.1, 1);
 }

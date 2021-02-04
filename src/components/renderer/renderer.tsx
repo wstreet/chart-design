@@ -77,31 +77,45 @@ export const Renderer: FC<Renderer.Props> = (props) => {
   }, [points])
 
   const onDragStart = useCallback((e) => {
-
+    console.log('onDragStart')
+    // e.dataTransfer.setData("Text",e.target.id);
   }, [])
 
-  const onDrag = useCallback((e) => {
-
-  }, [])
-
-  const onDragStop = useCallback((e) => {
-
-  }, [])
+  // 修改位置x,y
+  const onDragStop = useCallback((e, position, index) => {
+    const { x, y } = position;
+    const point = points[index]
+    point.props.x = x
+    point.props.y = y
+    updatePoints([...points])
+    
+  }, [points])
 
 
   const renderComponent = (
     points: Array<Renderer.Point>
   ): React.ReactNode => {
     const { activePointId } = props
-    return points.map(point => {
+    return points.map((point, index) => {
       const { componentName, props, id } = point
       const Component = LoaderComponent(componentName)
-      
       return (
-        <Component
-          key={id}
-          { ...props }
-        />
+        <Draggable
+          key={point.id} 
+          bounds="parent"
+          defaultPosition={{x: 0, y: 0}}
+          // position={null}
+          grid={[1, 1]} // snap 1
+          onStop={(e, position) => onDragStop(e, position, index)}
+          onStart={onDragStart}
+        >  
+            <div className="drag-item" onClick={() => onComponentClick(point.id)}>
+              <div className="drag-item-mask"></div>
+              <Component
+                { ...props }
+              />
+            </div>
+        </Draggable>
       )
     })
   }
@@ -109,36 +123,9 @@ export const Renderer: FC<Renderer.Props> = (props) => {
   return (
     <TargetBox type={ItemTypes.BOX} onDrop={onDrop}>
       <div className="renderer-container">
-        <Draggable
-          handle=".handle-box"
-          defaultPosition={{x: 0, y: 0}}
-          // position={{x: props.left, y: props.top}
-          grid={[1, 1]}
-          onStop={onDragStop}
-        >  
-            <div>
-            <GridLayout
-              cols={24}
-              rowHeight={240}
-              width={1200}
-              margin={[0, 0]}
-              // onDragStop={dragStop}
-              // onDragStart={onDragStart}
-              // onResizeStop={onResizeStop}
-              // style={{
-              //   backgroundColor: pageData && pageData.bgColor,
-              //   backgroundImage:
-              //     pageData && pageData.bgImage ? `url(${pageData.bgImage[0].url})` : 'initial',
-              //   backgroundSize: 'contain',
-              //   backgroundRepeat: 'no-repeat',
-              // }}
-            >
-              {
-                renderComponent(points)
-              }
-            </GridLayout>
-          </div>
-        </Draggable>
+        {
+          renderComponent(points)
+        }
       </div>
     </TargetBox>
   )

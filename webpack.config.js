@@ -83,7 +83,7 @@ module.exports = function (env) {
       compress: true,
       port: 9000,
       open: true,
-      hot: true,
+      // hot: true,
       stats: "errors-warnings",
     };
     baseConfig.plugins.push(new FriendlyErrorsWebpackPlugin());

@@ -2,4 +2,21 @@
   height: calc(100vh - 60px);
   overflow-y: auto;
   position: relative;
+  .drag-item {
+    display: inline-block;
+    position: absolute;
+    z-index: 2;
+    border: 1px solid transparent;
+    cursor: move;
+    &:hover {
+      border: 1px solid #873bf4;
+    }
+    .drag-item-mask {
+      height: 100%;
+      width: 100%;
+      background: rgba(135, 59, 244, 0.02);
+      position: absolute;
+      z-index: 10;
+    }
+  }
 }

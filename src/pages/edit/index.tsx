@@ -6,7 +6,7 @@ import { Button, Layout  } from 'antd'
 import { 
   ClearOutlined, UndoOutlined, RedoOutlined, 
   CopyOutlined, ScissorOutlined, SnippetsOutlined,
-  SaveOutlined, RightOutlined
+  SaveOutlined, RightOutlined, LeftOutlined
 } from '@ant-design/icons'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Toolbar from 'components/toolbar'
@@ -33,6 +33,7 @@ const toolbarActions = {
 const App = () => {
 
   const [points, setPoints ] = useState<any>([])
+  const [expand, setExpand] = useState(true)
   
   const [activePointId, setActivePointId] = useState<string>('')
 
@@ -199,6 +200,10 @@ const App = () => {
     }
   }, [])
 
+
+  const onToggle = () => {
+    setExpand(!expand)
+  }
   
 
   return (
@@ -231,11 +236,11 @@ const App = () => {
           {/* @ts-ignore */}
           <Renderer points={points} activePointId={activePointId} getActivePointId={getActivePointId} updatePoints={updatePoints} />
         </Content>
-        <Sider className="right-sider">
+        <Sider className={`right-sider ${expand ? '' : 'close'}`}>
           {/* @ts-ignore */}
           <AttrForm points={points} activePointId={activePointId} updatePoints={updatePoints} />
-          <div className="right-fold">
-            <RightOutlined />
+          <div className="right-fold" onClick={onToggle}>
+            { expand ? <RightOutlined /> : <LeftOutlined /> }
           </div>
         </Sider>
       </Layout>
