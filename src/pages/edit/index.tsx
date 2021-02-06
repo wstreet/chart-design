@@ -1,12 +1,12 @@
 import React,  { useEffect, useState, useCallback } from 'react'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
-import { Button, Layout  } from 'antd'
-
+import { Button, Layout, Menu } from 'antd'
 import { 
   ClearOutlined, UndoOutlined, RedoOutlined, 
   CopyOutlined, ScissorOutlined, SnippetsOutlined,
-  SaveOutlined, RightOutlined, LeftOutlined
+  SaveOutlined, RightOutlined, LeftOutlined,
+  OrderedListOutlined, GithubOutlined
 } from '@ant-design/icons'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Toolbar from 'components/toolbar'
@@ -212,7 +212,19 @@ const App = () => {
       <Header>
         <div className="wd-header">
           <div className="logo">Chart Design</div>
-          
+            <div>
+              <Menu mode="horizontal">
+                <Menu.Item key="todo" >
+                  <a href="https://github.com/wstreet/chart-design/blob/main/TODO.md" target="_blank" rel="noopener noreferrer">
+                    TODO
+                  </a>
+                </Menu.Item>
+                <Menu.Item icon={<GithubOutlined />}>
+                  <a href="https://github.com/wstreet/chart-design" target="_blank" rel="noopener noreferrer">
+                  </a>
+                </Menu.Item>
+              </Menu>
+            </div>
         </div>
         {/* <div className="clear"></div> */}
       </Header>
