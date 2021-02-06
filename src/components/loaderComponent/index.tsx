@@ -9,13 +9,12 @@ const LoaderComponent =  (componentName: string) => {
       <Component {...props}/>
     </Suspense>
   )
-
-  // @ts-ignore
-  SuspenseComponent.defaultProps = registerCharts[componentName].defaultProps || {}
-  // @ts-ignore
-  SuspenseComponent.editableAttrs = registerCharts[componentName].editableAttrs || []
-
   return SuspenseComponent
+}
+
+export const loaderConfig = (componentName, file) => {
+  const defProps = require(`components/charts/${componentName}/${file}`)
+  return defProps
 }
 
 export default LoaderComponent

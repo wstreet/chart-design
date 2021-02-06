@@ -1,17 +1,14 @@
 import React, { FC, useCallback } from 'react'
-import LoaderComponent from 'components/loaderComponent'
+import LoaderComponent, { loaderConfig } from 'components/loaderComponent'
 // import pick from 'lodash/pick'
 import TargetBox from 'components/targetBox'
-// import SourceBox from 'components/sourceBox'
 import ItemTypes from 'components/itemTypes'
 import { EditableAttr } from 'components/componentList'
 import { getId } from 'utils/index'
 import { findIndex, find } from  'lodash'
 import { useMouse } from "ahooks"
 import Draggable from 'react-draggable';
-import GridLayout, { ItemCallback } from 'react-grid-layout';
 import './index.less'
-
 
 
 export const Renderer: FC<Renderer.Props> = (props) => {
@@ -19,16 +16,15 @@ export const Renderer: FC<Renderer.Props> = (props) => {
 
   // const cursorPosition = useMouse();
 
-  const onComponentClick = (id: string) => {
+  const onComponentClick = useCallback((id: string) => {
     const { getActivePointId } = props
     getActivePointId(id)
-  }
+  }, [])
 
   const getDefaultPoint = useCallback((componentName: string) => {
-    const Component = LoaderComponent(componentName)
-    const defaultProps = {
-      ...Component.defaultProps,
-    }
+    const defaultProps = loaderConfig(componentName, 'defaultProps').default
+    const editableAttrs = loaderConfig(componentName, 'editableAttrs').default
+
     return { 
       id: getId(),
       componentName,
@@ -38,7 +34,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
         top: 200,
         left: 500,
       },
-      editableAttrs: [...Component.editableAttrs]
+      editableAttrs: [...editableAttrs]
     }
   }, [])
 
@@ -97,23 +93,28 @@ export const Renderer: FC<Renderer.Props> = (props) => {
   ): React.ReactNode => {
     const { activePointId } = props
     return points.map((point, index) => {
-      const { componentName, props, id } = point
+      const { componentName, props: componentProps, id, } = point
       const Component = LoaderComponent(componentName)
       return (
         <Draggable
-          key={point.id} 
+          key={id} 
           bounds="parent"
-          defaultPosition={{x: 0, y: 0}}
-          // position={null}
+          // defaultPosition={{x: 0, y: 0}}
+          position={{x: 0, y:0}}
           grid={[1, 1]} // snap 1
           onStop={(e, position) => onDragStop(e, position, index)}
           onStart={onDragStart}
         >  
             <div className="drag-item" onClick={() => onComponentClick(point.id)}>
-              <div className="drag-item-mask"></div>
-              <Component
-                { ...props }
-              />
+              <div className="drag-item-mask" />
+                <Component
+                  { ...componentProps }
+                />
+                <div className="drag-item-top-anchor" />
+                <div className="drag-item-right-anchor" />
+                <div className="drag-item-bottom-anchor" />
+                <div className="drag-item-left-anchor" />
+                <div className="drag-item-right-bottom-anchor" />
             </div>
         </Draggable>
       )
@@ -121,13 +122,16 @@ export const Renderer: FC<Renderer.Props> = (props) => {
   }
 
   return (
-    <TargetBox type={ItemTypes.BOX} onDrop={onDrop}>
-      <div className="renderer-container">
-        {
-          renderComponent(points)
-        }
-      </div>
-    </TargetBox>
+    <div>
+      <TargetBox type={ItemTypes.BOX} onDrop={onDrop}>
+        <div className="renderer-container">
+          {
+            renderComponent(points)
+          }
+        </div>
+      </TargetBox>
+      <div className="renderer-footer">renderer footer</div>
+    </div>
   )
 }
 

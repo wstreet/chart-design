@@ -1,9 +1,8 @@
 import { Line, LineOptions, G2, Options } from '@antv/g2plot';
-import React, { FC, useEffect, useRef } from 'react'
+import React, { FC, useEffect, useRef, memo } from 'react'
 import ErrorBoundary from '../errorBoundary'
 import ChartLoading from '../chartLoading'
 import pick from 'lodash/pick'
-// import Wrapper from 'components/componentList/wrapper'
 
 const padding = 20
 const margin = 12
@@ -18,7 +17,6 @@ const styleKeys = [
   'width',
   'height',
 ]
-
 
 interface ContainerProps {
   title?: React.ReactNode;
@@ -38,7 +36,6 @@ interface IProps extends LineOptions, ContainerProps {
   
 }
 
-
 const LineChart: FC<IProps> = (props) => {
   const container = useRef(null)
   const {
@@ -54,6 +51,7 @@ const LineChart: FC<IProps> = (props) => {
   } = props;
 
   useEffect(() => {
+    // debugger
     fetch('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json')
     .then((res) => res.json())
     .then((data) => {
@@ -96,4 +94,4 @@ const LineChart: FC<IProps> = (props) => {
   )
 }
 
-export default LineChart
+export default memo(LineChart)
