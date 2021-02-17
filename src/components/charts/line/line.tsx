@@ -19,6 +19,7 @@ const styleKeys = [
 ]
 
 interface ContainerProps {
+  id? : string,
   title?: React.ReactNode;
   subTitle?: React.ReactNode;
   style?: React.CSSProperties;
@@ -33,12 +34,13 @@ interface ContainerProps {
 }
 
 interface IProps extends LineOptions, ContainerProps {
-  
+  dataSource?: Array<any>
 }
 
 const LineChart: FC<IProps> = (props) => {
-  const container = useRef(null)
+  const container = useRef<HTMLDivElement>(null)
   const {
+    id,
     className,
     loading,
     loadingTemplate,
@@ -47,17 +49,15 @@ const LineChart: FC<IProps> = (props) => {
     height,
     title,
     subTitle,
+    dataSource = [],
     ...rest
   } = props;
 
   useEffect(() => {
-    // debugger
-    fetch('https://gw.alipayobjects.com/os/bmw-prod/1d565782-dde4-4bb6-8946-ea6a38ccf184.json')
-    .then((res) => res.json())
-    .then((data) => {
-      // @ts-ignore
+    // if url true, dataSource从url获取
+    if (container.current) {
       const line = new Line(container.current, {
-        data,
+        data: dataSource,
         padding: 'auto',
         xField: 'Date',
         yField: 'scales',
@@ -68,8 +68,9 @@ const LineChart: FC<IProps> = (props) => {
         },
       });
       line.render();
-    });
-  }, [])
+    }
+    
+  }, [dataSource])
 
   const getStyle = () => {
     // pick(props, styleKeys)
@@ -81,7 +82,7 @@ const LineChart: FC<IProps> = (props) => {
   return (
     <ErrorBoundary>
       {loading && <ChartLoading loadingTemplate={loadingTemplate} />}
-      <div style={{ ...style, background: '#fff', width, height, padding, margin, display: 'inline-block' }}>
+      <div id={id} style={{ ...style, background: '#fff', width, height, padding, margin, display: 'inline-block' }}>
         {
           title && <div className="cd-title">{title}</div>
         }

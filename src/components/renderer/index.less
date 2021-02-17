@@ -10,47 +10,6 @@
     cursor: move;
     &:hover {
       border: 1px solid #873bf4;
-      .drag-item-top-anchor,
-      .drag-item-right-anchor,
-      .drag-item-bottom-anchor,
-      .drag-item-left-anchor,
-      .drag-item-right-bottom-anchor {
-        width: 6px;
-        height: 6px;
-        position: absolute;
-        background-color: #873bf4;
-        z-index: 15;
-      }
-
-      .drag-item-top-anchor {
-        top: 0;
-        left: 50%;
-        cursor: ns-resize;
-      }
-
-      .drag-item-right-anchor {
-        right: 0;
-        top: 50%;
-        cursor: ew-resize;
-      }
-
-      .drag-item-bottom-anchor {
-        bottom: 0;
-        left: 50%;
-        cursor: ns-resize;
-      }
-
-      .drag-item-left-anchor {
-        left: 0;
-        top: 50%;
-        cursor: ew-resize;
-      }
-
-      .drag-item-right-bottom-anchor {
-        right: 0;
-        bottom: 0%;
-        cursor: nw-resize;
-      }
     }
     .drag-item-mask {
       height: 100%;
@@ -58,6 +17,51 @@
       background: rgba(135, 59, 244, 0.02);
       position: absolute;
       z-index: 10;
+    }
+  }
+
+  .selected-drag-item {
+    border: 1px solid #873bf4;
+    .drag-item-anchor-t,
+    .drag-item-anchor-r,
+    .drag-item-anchor-b,
+    .drag-item-anchor-l,
+    .drag-item-anchor-rb {
+      width: 6px;
+      height: 6px;
+      position: absolute;
+      background-color: #873bf4;
+      z-index: 15;
+    }
+
+    .drag-item-anchor-t {
+      top: 0;
+      left: 50%;
+      cursor: ns-resize;
+    }
+
+    .drag-item-anchor-r {
+      right: 0;
+      top: 50%;
+      cursor: ew-resize;
+    }
+
+    .drag-item-anchor-b {
+      bottom: 0;
+      left: 50%;
+      cursor: ns-resize;
+    }
+
+    .drag-item-anchor-l {
+      left: 0;
+      top: 50%;
+      cursor: ew-resize;
+    }
+
+    .drag-item-anchor-rb {
+      right: 0;
+      bottom: 0%;
+      cursor: nw-resize;
     }
   }
 }

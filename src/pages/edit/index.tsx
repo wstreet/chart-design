@@ -6,8 +6,9 @@ import {
   ClearOutlined, UndoOutlined, RedoOutlined, 
   CopyOutlined, ScissorOutlined, SnippetsOutlined,
   SaveOutlined, RightOutlined, LeftOutlined,
-  OrderedListOutlined, GithubOutlined
+  OrderedListOutlined, GithubOutlined, DeleteOutlined
 } from '@ant-design/icons'
+import _ from 'lodash'
 import { useHotkeys } from 'react-hotkeys-hook'
 import Toolbar from 'components/toolbar'
 import Renderer, { doManger } from 'components/renderer'
@@ -26,7 +27,8 @@ const toolbarActions = {
   COPY: 'COPY',
   CUT: 'CUT',
   PASTE: 'PASTE',
-  SAVE: 'SAVE'
+  SAVE: 'SAVE',
+  DEL: 'DEL'
 }
 
 
@@ -85,6 +87,12 @@ const App = () => {
       tooltip: '保存',
       hotKey: 'Ctrl + S',
       icon: <SaveOutlined />
+    },
+    {
+      id: toolbarActions.DEL,
+      tooltip: '删除',
+      hotKey: 'DELETE',
+      icon: <DeleteOutlined />
     },
   ]
 
@@ -157,6 +165,15 @@ const App = () => {
       e.preventDefault()
     }
   }, [])
+
+  const delCallback = useCallback((e?: any) => {
+    if (e) {
+      e.preventDefault()
+    }
+    const activeIdx = _.findIndex(points, (p: Renderer.Point) => p.id === activePointId)
+    points.splice(activeIdx, 1)
+    updatePoints([...points])
+  }, [activePointId, points])
   
   // 清空
   useHotkeys('ctrl+d', clearCallback)
@@ -172,6 +189,8 @@ const App = () => {
   useHotkeys('ctrl+v', pasteCallback)
   // 保存
   useHotkeys('ctrl+s', saveCallback)
+
+  useHotkeys('delete', delCallback)
 
   const onClick = useCallback((value: any) => {
     // 处理对应键的逻辑
@@ -196,6 +215,9 @@ const App = () => {
           break
       case toolbarActions.SAVE:
         saveCallback()
+        break
+      case toolbarActions.DEL:
+        delCallback()
         break
     }
   }, [])

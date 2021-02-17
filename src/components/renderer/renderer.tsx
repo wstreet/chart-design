@@ -1,5 +1,6 @@
-import React, { FC, useCallback } from 'react'
+import React, { FC, useCallback, useMemo, memo } from 'react'
 import LoaderComponent, { loaderConfig } from 'components/loaderComponent'
+import classnames from 'classnames'
 // import pick from 'lodash/pick'
 import TargetBox from 'components/targetBox'
 import ItemTypes from 'components/itemTypes'
@@ -11,13 +12,20 @@ import Draggable from 'react-draggable';
 import './index.less'
 
 
-export const Renderer: FC<Renderer.Props> = (props) => {
-  const { points, updatePoints } = props
+function addEventListener(node, type, callback) {
+  node.addEventListener(type, callback);
+  return {
+    removeEventListener() {
+      node.removeEventListener(type, callback);
+    }
+  };
+}
 
-  // const cursorPosition = useMouse();
+export const Renderer: FC<Renderer.Props> = (props) => {
+  const { points, activePointId, updatePoints, getActivePointId } = props
+  // const mouse = useMouse()
 
   const onComponentClick = useCallback((id: string) => {
-    const { getActivePointId } = props
     getActivePointId(id)
   }, [])
 
@@ -30,30 +38,26 @@ export const Renderer: FC<Renderer.Props> = (props) => {
       componentName,
       props: {
         ...defaultProps,
-        // 根据鼠标坐标更新组件位置
-        top: 200,
-        left: 500,
       },
       editableAttrs: [...editableAttrs]
     }
   }, [])
 
-  const onResize = useCallback((rect, id) => {
-    const resizePointIndex =  findIndex(points, (p: Renderer.Point) => p.id === id)
-    const resizePoint =  find(points, (p: Renderer.Point) => p.id === id)
+  const onResize = useCallback((rect) => {
+    const { activePointId } = props
+    const resizePointIndex =  findIndex(points, (p: Renderer.Point) => p.id === activePointId)
+    const resizePoint =  find(points, (p: Renderer.Point) => p.id === activePointId)
 
     if (!resizePoint) {
       return
     }
     resizePoint.props = {
       ...resizePoint.props,
-      // 减去margin * 2
-      width: rect.width - 24,
-      height: rect.height - 24
+      ...rect
     }
     points.splice(resizePointIndex, 1, resizePoint)
     updatePoints([ ...points])
-  }, [points])
+  }, [points, activePointId])
 
   const onDrop = useCallback((item: any) => {
     const { componentName, id } = item
@@ -79,47 +83,123 @@ export const Renderer: FC<Renderer.Props> = (props) => {
 
   // 修改位置x,y
   const onDragStop = useCallback((e, position, index) => {
+    console.log('onDragStop')
     const { x, y } = position;
     const point = points[index]
+    if (point.props.x === x && point.props.y === y) {
+      return
+    }
     point.props.x = x
     point.props.y = y
     updatePoints([...points])
     
   }, [points])
 
+  const onMouseDown = useCallback((e, position: string) => {
+    const resizePoint =  find(points, (p: Renderer.Point) => p.id === activePointId)
+    if (!resizePoint) {
+      return
+    }
+    const originX = e.pageX
+    const originY = e.pageY
+    const originOffsetX = e.nativeEvent.offsetX
+    const originOffsetY = e.nativeEvent.offsetY
+    const originWidth = resizePoint.props.width
+    const originHeight = resizePoint.props.height
 
-  const renderComponent = (
+    // 操作dom
+    const wrapDOM = document.getElementById(`wrap-${activePointId}`)
+    const dom = document.getElementById(`${activePointId}`)
+    if (!dom || !wrapDOM) {
+      return
+    }
+    const destory = addEventListener(document, 'mousemove', (e) => {
+      const { pageX, pageY, offsetX, offsetY } = e
+      
+      if (position === 'R') {
+        dom.style.width = `${originWidth + pageX - originX}px`
+      }
+      if (position === 'T' || position === 'B') {
+        dom.style.height = `${originHeight + pageY - originY}px`
+      }
+
+      if (position === 'L') {
+        dom.style.width = `${originWidth + originX - pageX}px`
+        // 更新left
+        wrapDOM.style.transform = `translate(${offsetX}px, ${originOffsetY}px)`
+      }
+
+      if (position === 'T') {
+        dom.style.height = `${originHeight + originY - pageY}px`
+        // 更新top
+        wrapDOM.style.transform = `translate(${originOffsetX}px, ${offsetY}px)`
+      }
+
+      if (position === 'RB') {
+        dom.style.width = `${originWidth + pageX - originX}px`
+        dom.style.height = `${originHeight + pageY - originY}px`
+      }
+      
+    })
+    
+    const anchorDOM = wrapDOM.querySelector(`.drag-item-anchor-${position.toLocaleLowerCase()}`) as HTMLDivElement
+
+    anchorDOM.addEventListener('mouseup', e => {
+      destory.removeEventListener()
+
+      const { pageX, pageY, offsetX, offsetY } = e
+      // update position
+      const rect = {
+        // @ts-ignore
+        width: originWidth + pageX - originX,
+        // @ts-ignore
+        height: originHeight + pageY -originY,
+        x: offsetX,
+        y: offsetY
+      }
+      onResize(rect)
+    })
+    e.stopPropagation()
+  }, [points])
+
+
+  const renderComponent = useMemo(() => (
     points: Array<Renderer.Point>
   ): React.ReactNode => {
-    const { activePointId } = props
     return points.map((point, index) => {
-      const { componentName, props: componentProps, id, } = point
+      const { componentName, props: componentProps, id } = point
       const Component = LoaderComponent(componentName)
+      const positionX = componentProps.x as number
+      const positionY = componentProps.y as number
+
       return (
         <Draggable
           key={id} 
           bounds="parent"
-          // defaultPosition={{x: 0, y: 0}}
-          position={{x: 0, y:0}}
+          position={{x: positionX, y:positionY }}
           grid={[1, 1]} // snap 1
           onStop={(e, position) => onDragStop(e, position, index)}
           onStart={onDragStart}
         >  
-            <div className="drag-item" onClick={() => onComponentClick(point.id)}>
-              <div className="drag-item-mask" />
+            <div 
+              id={`wrap-${id}`}
+              className={classnames('drag-item', { 'selected-drag-item': id === activePointId })}
+            >
+              <div className="drag-item-mask" onClick={() => onComponentClick(id)} />
                 <Component
                   { ...componentProps }
+                  id={id}
                 />
-                <div className="drag-item-top-anchor" />
-                <div className="drag-item-right-anchor" />
-                <div className="drag-item-bottom-anchor" />
-                <div className="drag-item-left-anchor" />
-                <div className="drag-item-right-bottom-anchor" />
+                <div className="drag-item-anchor-t" onMouseDown={(e) => onMouseDown(e, 'T')} />
+                <div className="drag-item-anchor-r" onMouseDown={(e) => onMouseDown(e, 'R')} />
+                <div className="drag-item-anchor-b" onMouseDown={(e) => onMouseDown(e, 'B')} />
+                <div className="drag-item-anchor-l" onMouseDown={(e) => onMouseDown(e, 'L')} />
+                <div className="drag-item-anchor-rb" onMouseDown={(e) => onMouseDown(e, 'RB')} />
             </div>
         </Draggable>
       )
     })
-  }
+  }, [points, activePointId])
 
   return (
     <div>
