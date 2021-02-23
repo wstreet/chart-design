@@ -5,7 +5,7 @@ import ChartLoading from '../chartLoading'
 import pick from 'lodash/pick'
 
 const padding = 20
-const margin = 12
+const margin = 1
 
 
 const styleKeys = [

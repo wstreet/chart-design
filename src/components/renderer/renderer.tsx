@@ -21,6 +21,7 @@ function addEventListener(node, type, callback) {
   };
 }
 
+
 export const Renderer: FC<Renderer.Props> = (props) => {
   const { points, activePointId, updatePoints, getActivePointId } = props
   // const mouse = useMouse()
@@ -102,10 +103,11 @@ export const Renderer: FC<Renderer.Props> = (props) => {
     }
     const originX = e.pageX
     const originY = e.pageY
-    const originOffsetX = e.nativeEvent.offsetX
-    const originOffsetY = e.nativeEvent.offsetY
+
     const originWidth = resizePoint.props.width
     const originHeight = resizePoint.props.height
+    const originOffsetX = resizePoint.props.x
+    const originOffsetY = resizePoint.props.y
 
     // 操作dom
     const wrapDOM = document.getElementById(`wrap-${activePointId}`)
@@ -114,17 +116,21 @@ export const Renderer: FC<Renderer.Props> = (props) => {
       return
     }
     const destory = addEventListener(document, 'mousemove', (e) => {
+      e.stopImmediatePropagation()
+      console.log(e.target)
       const { pageX, pageY, offsetX, offsetY } = e
       
       if (position === 'R') {
         dom.style.width = `${originWidth + pageX - originX}px`
       }
-      if (position === 'T' || position === 'B') {
+      if (position === 'B') {
         dom.style.height = `${originHeight + pageY - originY}px`
       }
 
       if (position === 'L') {
-        dom.style.width = `${originWidth + originX - pageX}px`
+        // console.log(originWidth, originX, pageX)
+        // console.log(offsetX, originOffsetY)
+        // dom.style.width = `${originWidth + originX - pageX}px`
         // 更新left
         wrapDOM.style.transform = `translate(${offsetX}px, ${originOffsetY}px)`
       }
@@ -142,23 +148,49 @@ export const Renderer: FC<Renderer.Props> = (props) => {
       
     })
     
-    const anchorDOM = wrapDOM.querySelector(`.drag-item-anchor-${position.toLocaleLowerCase()}`) as HTMLDivElement
-
-    anchorDOM.addEventListener('mouseup', e => {
+    const up = e => {
       destory.removeEventListener()
+      document.removeEventListener('mouseup', up)
 
       const { pageX, pageY, offsetX, offsetY } = e
       // update position
-      const rect = {
-        // @ts-ignore
-        width: originWidth + pageX - originX,
-        // @ts-ignore
-        height: originHeight + pageY -originY,
-        x: offsetX,
-        y: offsetY
+
+      if (position === 'R') {
+        const rect = {
+          // @ts-ignore
+          width: originWidth + pageX - originX,
+          // @ts-ignore
+          height: originHeight,
+          x: originOffsetX,
+          y: originOffsetY
+        }
+        onResize(rect)
       }
-      onResize(rect)
-    })
+      if (position === 'B') {
+        const rect = {
+          // @ts-ignore
+          width: originWidth,
+          // @ts-ignore
+          height: originWidth + originX - pageX,
+          x: originOffsetX,
+          y: originOffsetY
+        }
+        onResize(rect)
+      }
+      if (position === 'L') {
+        const rect = {
+          // @ts-ignore
+          width: originWidth - (pageX- originX),
+          // @ts-ignore
+          height: originHeight,
+          x: offsetX,
+          y: originOffsetY
+        }
+        onResize(rect)
+      }
+     
+    }
+    document.addEventListener('mouseup', up)
     e.stopPropagation()
   }, [points])
 
@@ -167,6 +199,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
     points: Array<Renderer.Point>
   ): React.ReactNode => {
     return points.map((point, index) => {
+      console.log(point)
       const { componentName, props: componentProps, id } = point
       const Component = LoaderComponent(componentName)
       const positionX = componentProps.x as number
