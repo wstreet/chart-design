@@ -1,9 +1,8 @@
 
 import React, { lazy, Suspense } from 'react'
-import { registerCharts } from 'components/charts'
 
 const LoaderComponent =  (componentName: string) => {
-  const Component = lazy(() => import(`components/charts/${componentName}`))
+  const Component = lazy(() => import(`../components/charts/${componentName}/index.tsx`))
   const SuspenseComponent = (props: any) => (
     <Suspense fallback={<div>loading...</div>}>
       <Component {...props}/>
@@ -12,8 +11,8 @@ const LoaderComponent =  (componentName: string) => {
   return SuspenseComponent
 }
 
-export const loaderConfig = (componentName, file) => {
-  const defProps = require(`components/charts/${componentName}/${file}`)
+export const loaderConfig = (componentName: string, file: string) => {
+  const defProps = require(`../components/charts/${componentName}/${file}.ts`)
   return defProps
 }
 

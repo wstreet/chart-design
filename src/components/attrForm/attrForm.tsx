@@ -1,8 +1,8 @@
 import React, { useCallback, useState } from 'react'
 import { Tabs, Form, Empty, Collapse } from 'antd'
 import { CaretRightOutlined } from '@ant-design/icons';
-import Renderer from 'components/renderer'
-import formComponents from 'components/formComponents'
+import Renderer from '../renderer'
+import formComponents from '../formComponents'
 import { find, findIndex } from 'lodash'
 import './index.less'
 
@@ -79,9 +79,9 @@ export const AttrForm = (props: AttrForm.Props) => {
                   return (
                     <Panel header={group.title} key={group.groupKey}>
                       {
-                        group.attrs.map(attr => {
+                        group.attrs.map((attr: { viewType: string; name?: any; attrKey?: any; dataSource?: any; }) => {
                           const { attrKey, viewType, dataSource = [] } = attr
-                        
+                          // @ts-ignore
                           const Component = formComponents[viewType]
             
                           const valueProps = {

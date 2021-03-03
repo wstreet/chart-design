@@ -2,9 +2,9 @@ import React, { ReactNode } from 'react';
 import { HomeOutlined, AppstoreOutlined, SettingOutlined } from '@ant-design/icons'
 import { Tabs, Row, Col, Card } from 'antd'
 // import { registerComponents } from 'components/componentList'
-import { chartList } from 'components/charts'
-import SourceBox from 'components/sourceBox'
-import ItemTypes from 'components/itemTypes'
+import { chartList } from '../charts'
+import SourceBox from '../sourceBox'
+import ItemTypes from '../itemTypes'
 import './index.less'
 
 const { TabPane } = Tabs
