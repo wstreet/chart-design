@@ -10,10 +10,10 @@ import {
 } from '@ant-design/icons'
 import _ from 'lodash'
 import { useHotkeys } from 'react-hotkeys-hook'
-import Toolbar from 'components/toolbar'
-import Renderer, { doManger } from 'components/renderer'
-import LeftSider from 'components/leftSider'
-import AttrForm from 'components/attrForm'
+import Toolbar from '../../components/toolbar'
+import Renderer, { doManger } from '../../components/renderer'
+import LeftSider from '../../components/leftSider'
+import AttrForm from '../../components/attrForm'
 import './index.less'
 
 

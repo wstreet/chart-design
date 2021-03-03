@@ -1,17 +1,9 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from 'pages/edit'
+import App from './pages/edit/index'
 import './index.less'
 
-const render = () => ReactDOM.render(
+ReactDOM.render(
   <App />,
   document.getElementById('root')
 )
-
-render()
-
-// if (module.hot) {
-//   // module.hot.accept(() => {
-//   //   render()
-//   // });
-// }

@@ -1,18 +1,18 @@
 import React, { FC, useCallback, useMemo, memo } from 'react'
-import LoaderComponent, { loaderConfig } from 'components/loaderComponent'
+import LoaderComponent, { loaderConfig } from '../loaderComponent'
 import classnames from 'classnames'
 // import pick from 'lodash/pick'
-import TargetBox from 'components/targetBox'
-import ItemTypes from 'components/itemTypes'
-import { EditableAttr } from 'components/componentList'
-import { getId } from 'utils/index'
+import TargetBox from '../targetBox'
+import ItemTypes from '../itemTypes'
+import { EditableAttr } from '../componentList'
+import { getId } from '../../utils/index'
 import { findIndex, find } from  'lodash'
 import { useMouse } from "ahooks"
 import Draggable from 'react-draggable';
 import './index.less'
 
 
-function addEventListener(node, type, callback) {
+function addEventListener(node: Document, type: string, callback: (e: any) => void) {
   node.addEventListener(type, callback);
   return {
     removeEventListener() {
@@ -148,7 +148,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
       
     })
     
-    const up = e => {
+    const up = (e: { pageX: any; pageY: any; offsetX: any; offsetY: any }) => {
       destory.removeEventListener()
       document.removeEventListener('mouseup', up)
 
