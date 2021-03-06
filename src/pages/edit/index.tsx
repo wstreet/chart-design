@@ -231,7 +231,7 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Layout>
-      <Header>
+      {/* <Header>
         <div className="wd-header">
           <div className="logo">Chart Design</div>
             <div>
@@ -248,8 +248,7 @@ const App = () => {
               </Menu>
             </div>
         </div>
-        {/* <div className="clear"></div> */}
-      </Header>
+      </Header> */}
       <Layout id="main">
         <LeftSider />
         <Content className="renderer-content">

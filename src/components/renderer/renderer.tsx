@@ -1,5 +1,5 @@
 import React, { FC, useCallback, useMemo, memo } from 'react'
-import LoaderComponent, { loaderConfig } from '../loaderComponent'
+import LoaderComponent from '../loaderComponent'
 import classnames from 'classnames'
 // import pick from 'lodash/pick'
 import TargetBox from '../targetBox'
@@ -9,6 +9,7 @@ import { getId } from '../../utils/index'
 import { findIndex, find } from  'lodash'
 import { useMouse } from "ahooks"
 import Draggable from 'react-draggable';
+import { chartConfig } from '../charts'
 import './index.less'
 
 
@@ -31,8 +32,8 @@ export const Renderer: FC<Renderer.Props> = (props) => {
   }, [])
 
   const getDefaultPoint = useCallback((componentName: string) => {
-    const defaultProps = loaderConfig(componentName, 'defaultProps').default
-    const editableAttrs = loaderConfig(componentName, 'editableAttrs').default
+    const defaultProps = chartConfig[componentName].defaultProps
+    const editableAttrs =  chartConfig[componentName].editableAttrs
 
     return { 
       id: getId(),
