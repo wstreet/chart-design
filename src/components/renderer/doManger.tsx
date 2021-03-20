@@ -9,9 +9,6 @@ class DoManger {
     this.clear()
   }
 
-
-
-
   clear() {
     this.cursor = 0
     this.history = []

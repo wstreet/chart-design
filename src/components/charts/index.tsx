@@ -1,6 +1,8 @@
 
 import lineDefaultProps from './line/defaultProps'
 import lineEditableAttrs from './line/editableAttrs'
+import containerDefaultProps from './container/defaultProps'
+import containerEditableAttrs from './container/editableAttrs'
 
 import './common.less'
 
@@ -8,6 +10,10 @@ export const chartConfig: ChartConfig = {
   line: {
     editableAttrs: lineEditableAttrs,
     defaultProps: lineDefaultProps
+  },
+  container: {
+    editableAttrs: containerEditableAttrs,
+    defaultProps: containerDefaultProps
   }
 }
 

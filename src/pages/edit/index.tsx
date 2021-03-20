@@ -14,6 +14,7 @@ import Toolbar from '../../components/toolbar'
 import Renderer, { doManger } from '../../components/renderer'
 import LeftSider from '../../components/leftSider'
 import AttrForm from '../../components/attrForm'
+import { chartConfig } from '../../components/charts'
 import './index.less'
 
 
@@ -34,7 +35,14 @@ const toolbarActions = {
 
 const App = () => {
 
-  const [points, setPoints ] = useState<any>([])
+  const [points, setPoints ] = useState<any>([
+    {
+      id: 'view-container',
+      componentName: "container",
+      props: chartConfig.container.defaultProps,
+      ...chartConfig.container
+    }
+  ])
   const [expand, setExpand] = useState(true)
   
   const [activePointId, setActivePointId] = useState<string>('')
@@ -231,7 +239,7 @@ const App = () => {
   return (
     <DndProvider backend={HTML5Backend}>
       <Layout>
-      {/* <Header>
+      <Header>
         <div className="wd-header">
           <div className="logo">Chart Design</div>
             <div>
@@ -248,7 +256,7 @@ const App = () => {
               </Menu>
             </div>
         </div>
-      </Header> */}
+      </Header>
       <Layout id="main">
         <LeftSider />
         <Content className="renderer-content">

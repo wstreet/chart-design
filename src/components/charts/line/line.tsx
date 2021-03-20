@@ -2,6 +2,7 @@ import { Line, LineOptions, G2, Options } from '@antv/g2plot';
 import React, { FC, useEffect, useRef, memo } from 'react'
 import ErrorBoundary from '../errorBoundary'
 import ChartLoading from '../chartLoading'
+import { IProps } from '../interface'
 import pick from 'lodash/pick'
 
 const padding = 20
@@ -18,24 +19,7 @@ const styleKeys = [
   'height',
 ]
 
-interface ContainerProps {
-  id? : string,
-  title?: React.ReactNode;
-  subTitle?: React.ReactNode;
-  style?: React.CSSProperties;
-  className?: string;
-  loading?: boolean;
-  loadingTemplate?: React.ReactElement;
-  errorTemplate?: (e: Error) => React.ReactNode;
-  /** 图表渲染完成回调 */
-  onReady?: (chart: Options) => void;
-  /** 任何其他的图形事件 */
-  onEvent?: (chart: Options, event: G2.Event) => void;
-}
 
-interface IProps extends LineOptions, ContainerProps {
-  dataSource?: Array<any>
-}
 
 const LineChart: FC<IProps> = (props) => {
   const container = useRef<HTMLDivElement>(null)

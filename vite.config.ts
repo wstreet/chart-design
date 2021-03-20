@@ -15,6 +15,6 @@ export default defineConfig({
   },
   // 配置Dep优化行为
   optimizeDeps: {
-    include: ["lodash", "antd"]
+    include: ["lodash"]
   },
 })

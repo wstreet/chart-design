@@ -80,7 +80,6 @@ export const Renderer: FC<Renderer.Props> = (props) => {
 
   const onDragStart = useCallback((e) => {
     console.log('onDragStart')
-    // e.dataTransfer.setData("Text",e.target.id);
   }, [])
 
   // 修改位置x,y
@@ -118,7 +117,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
     }
     const destory = addEventListener(document, 'mousemove', (e) => {
       e.stopImmediatePropagation()
-      console.log(e.target)
+ 
       const { pageX, pageY, offsetX, offsetY } = e
       
       if (position === 'R') {
@@ -129,9 +128,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
       }
 
       if (position === 'L') {
-        // console.log(originWidth, originX, pageX)
-        // console.log(offsetX, originOffsetY)
-        // dom.style.width = `${originWidth + originX - pageX}px`
+        dom.style.width = `${originWidth + originX - pageX}px`
         // 更新left
         wrapDOM.style.transform = `translate(${offsetX}px, ${originOffsetY}px)`
       }
@@ -172,7 +169,7 @@ export const Renderer: FC<Renderer.Props> = (props) => {
           // @ts-ignore
           width: originWidth,
           // @ts-ignore
-          height: originWidth + originX - pageX,
+          height: originHeight + pageY - originY,
           x: originOffsetX,
           y: originOffsetY
         }
@@ -185,6 +182,17 @@ export const Renderer: FC<Renderer.Props> = (props) => {
           // @ts-ignore
           height: originHeight,
           x: offsetX,
+          y: originOffsetY
+        }
+        onResize(rect)
+      }
+      if (position === 'RB') {
+        const rect = {
+          // @ts-ignore
+          width: originWidth + pageX - originX,
+          // @ts-ignore
+          height: originHeight + pageY - originY,
+          x: originOffsetX,
           y: originOffsetY
         }
         onResize(rect)
@@ -220,15 +228,15 @@ export const Renderer: FC<Renderer.Props> = (props) => {
               className={classnames('drag-item', { 'selected-drag-item': id === activePointId })}
             >
               <div className="drag-item-mask" onClick={() => onComponentClick(id)} />
-                <Component
-                  { ...componentProps }
-                  id={id}
-                />
-                <div className="drag-item-anchor-t" onMouseDown={(e) => onMouseDown(e, 'T')} />
-                <div className="drag-item-anchor-r" onMouseDown={(e) => onMouseDown(e, 'R')} />
-                <div className="drag-item-anchor-b" onMouseDown={(e) => onMouseDown(e, 'B')} />
-                <div className="drag-item-anchor-l" onMouseDown={(e) => onMouseDown(e, 'L')} />
-                <div className="drag-item-anchor-rb" onMouseDown={(e) => onMouseDown(e, 'RB')} />
+              <Component
+                { ...componentProps }
+                id={id}
+              />
+              {/* <div className="drag-item-anchor-t" onMouseDown={(e) => onMouseDown(e, 'T')} /> */}
+              {/* <div className="drag-item-anchor-r" onMouseDown={(e) => onMouseDown(e, 'R')} /> */}
+              {/* <div className="drag-item-anchor-b" onMouseDown={(e) => onMouseDown(e, 'B')} /> */}
+              {/* <div className="drag-item-anchor-l" onMouseDown={(e) => onMouseDown(e, 'L')} /> */}
+              <div className="drag-item-anchor-rb" onMouseDown={(e) => onMouseDown(e, 'RB')} />
             </div>
         </Draggable>
       )
